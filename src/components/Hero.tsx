@@ -1,4 +1,4 @@
-import { ChevronDown, MessageCircle } from "lucide-react";
+import { ChevronDown,} from "lucide-react";
 import logo from "../assets/logo.png"; // ajuste o nome se necessário
 
 export default function Hero() {
