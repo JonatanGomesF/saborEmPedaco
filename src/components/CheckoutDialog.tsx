@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { useCart } from "../context/CartContext";
-
+import { supabase } from "../services/supabase";
 type Props = {
   open: boolean;
   onOpenChange: (v: boolean) => void;
@@ -15,25 +15,52 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
   const [district, setDistrict] = useState("");
   const [payment, setPayment] = useState("PIX");
   const [troco, setTroco] = useState("");
-
+  const [phone, setPhone] = useState("");
   if (!open) return null;
 
-const send = () => {
-  if (!name || !street || !number) {
-    alert("Preencha nome, rua e número");
+const send = async () => {
+  if (!name || !phone || !street || !number) {
+    alert("Preencha nome, WhatsApp, rua e número");
     return;
+  }
+
+  // salva cliente no Supabase
+  try {
+await supabase
+  .from("customers")
+  .insert([
+    {
+      name,
+      phone,
+      street,
+      number,
+      district,
+       last_order_value: totalPrice,
+    },
+  ]);
+  } catch (error) {
+    console.error(error);
   }
 
   let msg = `*NOVO PEDIDO - YAKINHOME*\n\n`;
 
   msg += `*Nome:* ${name}\n`;
-  msg += `*Endereço:* ${street}, ${number} - ${district}\n\n`;
+  msg += `*WhatsApp:* ${phone}\n`;
+  msg += `*Endereço:* ${street}, ${number}`;
 
-  msg += `*Pedido:*\n`;
+  if (district) {
+    msg += ` - ${district}`;
+  }
+
+  msg += `\n\n*Pedido:*\n`;
 
   cartItems.forEach((item) => {
-    
-    msg += `\n• ${item.quantity}x ${item.name} (${item.size})`;
+    msg += `• ${item.quantity}x ${item.name}`;
+
+    if (item.size) {
+      msg += ` (${item.size})`;
+    }
+
     msg += ` - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
   });
 
@@ -41,7 +68,7 @@ const send = () => {
   msg += `*Pagamento:* ${payment}`;
 
   if (payment === "Dinheiro" && troco) {
-    msg += ` *(troco para R$* ${troco})`;
+    msg += ` (troco para R$ ${troco})`;
   }
 
   const url = `https://wa.me/5511963872966?text=${encodeURIComponent(msg)}`;
@@ -72,6 +99,12 @@ const send = () => {
           className="w-full border p-2 rounded"
         />
 
+                <input
+          placeholder="WhatsApp"
+          value={phone}
+          onChange={(e) => setPhone(e.target.value)}
+          className="w-full border p-2 rounded"
+        />
         <input
           placeholder="Rua"
           value={street}

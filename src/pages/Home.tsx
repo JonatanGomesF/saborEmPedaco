@@ -1,7 +1,7 @@
 
 import Hero from "../components/Hero";
 import ProductCard from "../components/ProductCard";
-
+import PromotionBanner from "../components/PromotionBanner";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
 
@@ -14,6 +14,7 @@ export default function Home() {
 
       <section id="inicio">
         <Hero />
+        <PromotionBanner />
       </section>
 
       {/* Cardápio */}
