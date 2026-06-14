@@ -3,6 +3,8 @@ import { Routes, Route } from "react-router-dom";
 import AdminPromocoes from "./pages/AdminPromocoes";
 import Home from "./pages/Home";
 import AdminClientes from "./pages/AdminClientes";
+import AdminLogin from "./pages/AdminLogin";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 import Cart from "./components/Cart";
 import Navbar from "./components/Navbar";
@@ -25,17 +27,32 @@ function App() {
     <>
       <Navbar onOpenCart={() => setCartOpen(true)} />
 
-      <Routes>
-        <Route path="/" element={<Home />} />
-        <Route
-  path="/admin/promocoes"
-  element={<AdminPromocoes />}
-/>
-        <Route
-          path="/admin/clientes"
-          element={<AdminClientes />}
-        />
-      </Routes>
+<Routes>
+  <Route path="/" element={<Home />} />
+
+  <Route
+    path="/admin/login"
+    element={<AdminLogin />}
+  />
+
+  <Route
+    path="/admin/clientes"
+    element={
+      <ProtectedRoute>
+        <AdminClientes />
+      </ProtectedRoute>
+    }
+  />
+
+  <Route
+    path="/admin/promocoes"
+    element={
+      <ProtectedRoute>
+        <AdminPromocoes />
+      </ProtectedRoute>
+    }
+  />
+</Routes>
 
       {cartOpen && (
         <div className="fixed right-0 top-0 h-full w-[400px] bg-white shadow-xl z-50 flex flex-col">

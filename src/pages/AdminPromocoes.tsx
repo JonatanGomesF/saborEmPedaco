@@ -12,6 +12,10 @@ type Promotion = {
 export default function AdminPromocoes() {
   const [promotions, setPromotions] = useState<Promotion[]>([]);
 
+  const [title, setTitle] = useState("");
+const [description, setDescription] = useState("");
+const [discount, setDiscount] = useState("");
+
   useEffect(() => {
     loadPromotions();
   }, []);
@@ -25,6 +29,36 @@ export default function AdminPromocoes() {
       setPromotions(data);
     }
   }
+
+  async function createPromotion() {
+  if (!title) {
+    alert("Digite o nome da promoção");
+    return;
+  }
+
+  const { error } = await supabase
+    .from("promotions")
+    .insert([
+      {
+        title,
+        description,
+        discount: Number(discount) || 0,
+        active: false,
+      },
+    ]);
+
+  if (error) {
+    console.error(error);
+    alert("Erro ao salvar");
+    return;
+  }
+
+  setTitle("");
+  setDescription("");
+  setDiscount("");
+
+  loadPromotions();
+}
 
   async function togglePromotion(
     id: number,
@@ -45,7 +79,44 @@ export default function AdminPromocoes() {
       <h1 className="text-3xl font-bold mb-6">
         Promoções
       </h1>
+        <div className="bg-white p-5 rounded-xl shadow mb-6">
+  <h2 className="text-xl font-bold mb-4">
+    Nova Promoção
+  </h2>
 
+  <div className="grid gap-3">
+    <input
+      type="text"
+      placeholder="Título"
+      value={title}
+      onChange={(e) => setTitle(e.target.value)}
+      className="border p-3 rounded-lg"
+    />
+
+    <input
+      type="text"
+      placeholder="Descrição"
+      value={description}
+      onChange={(e) => setDescription(e.target.value)}
+      className="border p-3 rounded-lg"
+    />
+
+    <input
+      type="number"
+      placeholder="Desconto"
+      value={discount}
+      onChange={(e) => setDiscount(e.target.value)}
+      className="border p-3 rounded-lg"
+    />
+
+    <button
+      onClick={createPromotion}
+      className="bg-green-600 text-white py-3 rounded-lg font-bold"
+    >
+      Salvar Promoção
+    </button>
+  </div>
+</div>
       <div className="grid gap-4">
         {promotions.map((promo) => (
           <div
