@@ -4,10 +4,10 @@ import ProductCard from "../components/ProductCard";
 import PromotionBanner from "../components/PromotionBanner";
 import { products } from "../data/products";
 import { useCart } from "../context/CartContext";
-
+import { usePromotions } from "../hooks/usePromotions";
 export default function Home() {
   const { addToCart } = useCart();
-
+  const promotions = usePromotions();
   return (
     <div className="min-h-screen bg-gray-50">
      
@@ -38,14 +38,27 @@ export default function Home() {
         </div>
 
         <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-          {products.map((product) => (
-            <ProductCard
-              key={product.id}
-              product={product}
-              onAddToCart={addToCart}
-            />
-          ))}
-        </div>
+{products.map((product) => {
+  const promotion = promotions.find(
+    (p) =>
+      p.product_id === product.id &&
+      p.active
+  );
+
+  return (
+    <ProductCard
+      key={product.id}
+      product={{
+        ...product,
+        promotionActive: !!promotion,
+        promotionalPrice: promotion
+          ? product.price - promotion.discount
+          : undefined,
+      }}
+      onAddToCart={addToCart}
+    />
+  );
+})}        </div>
       </section>
 
       {/* Sobre */}

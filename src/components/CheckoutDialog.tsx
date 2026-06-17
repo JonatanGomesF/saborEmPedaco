@@ -16,6 +16,7 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
   const [payment, setPayment] = useState("PIX");
   const [troco, setTroco] = useState("");
   const [phone, setPhone] = useState("");
+  
   if (!open) return null;
 
 const send = async () => {
@@ -56,6 +57,10 @@ await supabase
 
   cartItems.forEach((item) => {
     msg += `• ${item.quantity}x ${item.name}`;
+
+    if (item.promotionActive) {
+  msg += ` 🔥 PROMOÇÃO`;
+}
 
     if (item.size) {
       msg += ` (${item.size})`;

@@ -115,7 +115,7 @@ export const products: Product[] = [
     image: especialImg,
   },
   {
-    id: 10,
+    id: 11,
     name: "Yakisoba Vegetariano",
     description:
       "Combinação vegetariana de legumes frescos com molho especial da casa.",
@@ -124,7 +124,7 @@ export const products: Product[] = [
     image: yakiveg,
   },
   {
-    id: 10,
+    id: 12,
     name: "Yakisoba Vegetariano",
     description:
       "Combinação vegetariana de legumes frescos com molho especial da casa.",

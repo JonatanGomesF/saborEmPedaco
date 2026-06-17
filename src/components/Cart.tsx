@@ -6,6 +6,8 @@ type CartItem = {
   price: number;
   quantity: number;
   image: string;
+  promotionalPrice?: number;
+  promotionActive?: boolean;
 };
 
 type CartProps = {
@@ -39,11 +41,11 @@ export default function Cart({
         </div>
 
         <button
-  onClick={onClose}
-  className="w-full mb-3 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl transition"
->
-  ← Voltar
-</button>
+          onClick={onClose}
+          className="w-full mb-3 bg-red-500 hover:bg-red-600 text-white font-bold py-3 rounded-xl transition"
+        >
+          ← Voltar
+        </button>
       </div>
 
       {/* Empty */}
@@ -66,8 +68,17 @@ export default function Cart({
 
                 <div className="flex-1">
                   <div className="flex justify-between items-center">
-                    <h3 className="font-semibold">{item.name}</h3>
+                    <div>
+                      <h3 className="font-semibold">
+                        {item.name}
+                      </h3>
 
+                      {item.promotionActive && (
+                        <span className="text-xs bg-red-500 text-white px-2 py-1 rounded-full">
+                          🔥 PROMOÇÃO
+                        </span>
+                      )}
+                    </div>
                     <button
                       onClick={() => removeItem(item.id)}
                       className="text-red-500 hover:text-red-700"

@@ -6,6 +6,9 @@ type Product = {
   price: number;
   size: string;
   image: string;
+
+  promotionalPrice?: number;
+  promotionActive?: boolean;
 };
 
 type ProductCardProps = {
@@ -44,19 +47,38 @@ export default function ProductCard({
           {product.description}
         </p>
 
-        <div className="mt-5 flex items-center justify-between">
-          <span className="text-2xl font-extrabold text-orange-600">
-            R$ {product.price.toFixed(2)}
-          </span>
+<div className="mt-5 flex items-center justify-between">
 
-          <button
-            onClick={() => onAddToCart(product)}
-            className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-3 rounded-xl font-bold transition"
-          >
-            Adicionar
-          </button>
+  <div>
+    {product.promotionActive ? (
+      <>
+        <div className="bg-red-500 text-white text-xs px-2 py-1 rounded-full inline-block mb-1 font-bold">
+          🔥 PROMOÇÃO
         </div>
-      </div>
+
+        <div className="text-gray-400 line-through text-sm">
+          R$ {product.price.toFixed(2)}
+        </div>
+
+        <div className="text-2xl font-extrabold text-red-600">
+          R$ {product.promotionalPrice?.toFixed(2)}
+        </div>
+      </>
+    ) : (
+      <span className="text-2xl font-extrabold text-orange-600">
+        R$ {product.price.toFixed(2)}
+      </span>
+    )}
+  </div>
+
+  <button
+    onClick={() => onAddToCart(product)}
+    className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-3 rounded-xl font-bold transition"
+  >
+    Adicionar
+  </button>
+
+</div>      </div>
     </article>
   );
 }

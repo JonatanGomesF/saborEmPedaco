@@ -14,6 +14,9 @@ export type Product = {
   price: number;
   size: string;
   image: string;
+
+  promotionalPrice?: number;
+  promotionActive?: boolean;
 };
 
 export type CartItem = Product & {
@@ -84,14 +87,20 @@ export function CartProvider({ children }: ProviderProps) {
         );
       }
 
-      return [
-        ...currentItems,
-        {
-          ...product,
-          quantity: 1,
-        },
-      ];
-    });
+return [
+  ...currentItems,
+  {
+    ...product,
+
+    price:
+      product.promotionActive &&
+      product.promotionalPrice
+        ? product.promotionalPrice
+        : product.price,
+
+    quantity: 1,
+  },
+];    });
   };
 
   const removeFromCart = (id: number) => {
