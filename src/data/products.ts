@@ -3,6 +3,7 @@ import carneImg from "../assets/yaki-carne.png";
 import camaraoImg from "../assets/yaki-camarao.png";
 import mistoImg from "../assets/yaki-misto.png";
 import especialImg from "../assets/yaki-especial.png";
+import yakiveg from "../assets/yaki-veg.png";
 
 export type Product = {
   id: number;
@@ -112,5 +113,23 @@ export const products: Product[] = [
     price: 72.9,
     size: "800g",
     image: especialImg,
+  },
+  {
+    id: 10,
+    name: "Yakisoba Vegetariano",
+    description:
+      "Combinação vegetariana de legumes frescos com molho especial da casa.",
+    price: 29.9,
+    size: "500g",
+    image: yakiveg,
+  },
+  {
+    id: 10,
+    name: "Yakisoba Vegetariano",
+    description:
+      "Combinação vegetariana de legumes frescos com molho especial da casa.",
+    price: 32.9,
+    size: "800g",
+    image: yakiveg,
   },
 ];
