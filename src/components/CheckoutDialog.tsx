@@ -144,7 +144,9 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
           <option value="Débito">Débito</option>
           <option value="Dinheiro">Dinheiro</option>
         </select>
-
+        <p className="text-red-500">
+          Forma de pagamento: {payment}
+        </p>
         {payment === "Dinheiro" && (
           <input
             placeholder="Troco para"
