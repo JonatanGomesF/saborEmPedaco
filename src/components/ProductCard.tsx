@@ -22,25 +22,28 @@ export default function ProductCard({
   return (
     <article
       className="
-        bg-white
-        rounded-xl
-        shadow
-        overflow-hidden
-        border
-        border-gray-100
+    bg-black/20
+    backdrop-blur-md
 
-        flex
-        items-center
+    rounded-xl
+    shadow
 
-        hover:shadow-md
-        transition
-      "
+    overflow-hidden
+    border
+    border-white/30
+
+    flex
+    items-center
+
+    hover:shadow-lg
+    transition
+  "
     >
       {/* Imagem */}
       <div
         className="
-          w-24
-          h-24
+          w-28
+          h-28
           flex-shrink-0
         "
       >
