@@ -21,7 +21,7 @@ export const products: Product[] = [
     description:
       "Macarrão oriental preparado na hora com frango selecionado e legumes frescos.",
     price: 35.9,
-    size: "500g",
+    size: "450g",
     image: frangoImg,
   },
 
@@ -31,7 +31,7 @@ export const products: Product[] = [
     description:
       "Macarrão oriental preparado na hora com frango selecionado e legumes frescos.",
     price: 38.9,
-    size: "800g",
+    size: "750g",
     image: frangoImg,
   },
 
@@ -41,7 +41,7 @@ export const products: Product[] = [
     description:
       "Macarrão oriental com carne bovina macia e legumes salteados na chapa.",
     price: 41.9,
-    size: "500g",
+    size: "450g",
     image: carneImg,
   },
 
@@ -51,7 +51,7 @@ export const products: Product[] = [
     description:
       "Macarrão oriental com carne bovina macia e legumes salteados na chapa.",
     price: 44.9,
-    size: "800g",
+    size: "750g",
     image: carneImg,
   },
 
@@ -61,7 +61,7 @@ export const products: Product[] = [
     description:
       "Macarrão oriental com camarões selecionados e legumes frescos.",
     price: 56.9,
-    size: "500g",
+    size: "450g",
     image: camaraoImg,
   },
 
@@ -71,7 +71,7 @@ export const products: Product[] = [
     description:
       "Macarrão oriental com camarões selecionados e legumes frescos.",
     price: 59.9,
-    size: "800g",
+    size: "750g",
     image: camaraoImg,
   },
 
@@ -81,7 +81,7 @@ export const products: Product[] = [
     description:
       "Combinação irresistível de carne bovina e frango com legumes frescos.",
     price: 49.9,
-    size: "500g",
+    size: "450g",
     image: mistoImg,
   },
 
@@ -91,7 +91,7 @@ export const products: Product[] = [
     description:
       "Combinação irresistível de carne bovina e frango com legumes frescos.",
     price: 52.9,
-    size: "800g",
+    size: "750g",
     image: mistoImg,
   },
 
@@ -101,7 +101,7 @@ export const products: Product[] = [
     description:
       "Combinação premium de carne, frango e camarão com molho especial da casa.",
     price: 62.9,
-    size: "500g",
+    size: "450g",
     image: especialImg,
   },
 
@@ -111,7 +111,7 @@ export const products: Product[] = [
     description:
       "Combinação premium de carne, frango e camarão com molho especial da casa.",
     price: 72.9,
-    size: "800g",
+    size: "750g",
     image: especialImg,
   },
   {
@@ -120,7 +120,7 @@ export const products: Product[] = [
     description:
       "Combinação vegetariana de legumes frescos com molho especial da casa.",
     price: 29.9,
-    size: "500g",
+    size: "450g",
     image: yakiveg,
   },
   {
@@ -129,7 +129,7 @@ export const products: Product[] = [
     description:
       "Combinação vegetariana de legumes frescos com molho especial da casa.",
     price: 32.9,
-    size: "800g",
+    size: "750g",
     image: yakiveg,
   },
 ];

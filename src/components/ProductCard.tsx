@@ -1,4 +1,3 @@
-
 type Product = {
   id: number;
   name: string;
@@ -21,65 +20,115 @@ export default function ProductCard({
   onAddToCart,
 }: ProductCardProps) {
   return (
-    <article className="bg-white rounded-3xl overflow-hidden shadow-lg hover:shadow-2xl transition duration-300 border border-gray-100">
+    <article
+      className="
+        bg-white
+        rounded-xl
+        shadow
+        overflow-hidden
+        border
+        border-gray-100
+
+        flex
+        items-center
+
+        hover:shadow-md
+        transition
+      "
+    >
       {/* Imagem */}
-      <div className="h-56 overflow-hidden">
+      <div
+        className="
+          w-24
+          h-24
+          flex-shrink-0
+        "
+      >
         <img
           src={product.image}
           alt={product.name}
-          className="w-full h-full object-cover hover:scale-105 transition duration-300"
+          className="
+            w-full
+            h-full
+            object-cover
+          "
         />
       </div>
 
       {/* Conteúdo */}
-      <div className="p-5">
-        <div className="flex items-start justify-between gap-3">
-          <h3 className="text-xl font-bold text-gray-900">
-            {product.name}
-          </h3>
+      <div className="flex-1 p-3">
+        <div className="flex justify-between items-start gap-2">
+          <div>
+            <h3 className="font-bold text-base text-gray-900">
+              {product.name}
+            </h3>
 
-          <span className="bg-orange-100 text-orange-600 px-3 py-1 rounded-full text-sm font-semibold whitespace-nowrap">
-            {product.size}
-          </span>
+            <span
+              className="
+                inline-block
+                mt-1
+                bg-orange-100
+                text-orange-600
+                px-2
+                py-1
+                rounded-full
+                text-xs
+                font-semibold
+              "
+            >
+              {product.size}
+            </span>
+          </div>
         </div>
 
-        <p className="text-gray-600 text-sm mt-3 min-h-[60px]">
+        <p
+          className="
+            text-gray-500
+            text-xs
+            mt-2
+            line-clamp-2
+          "
+        >
           {product.description}
         </p>
 
-<div className="mt-5 flex items-center justify-between">
+        <div className="mt-3 flex items-center justify-between">
+          <div>
+            {product.promotionActive ? (
+              <>
+                <div className="text-xs text-gray-400 line-through">
+                  R$ {product.price.toFixed(2)}
+                </div>
 
-  <div>
-    {product.promotionActive ? (
-      <>
-        <div className="bg-red-500 text-white text-xs px-2 py-1 rounded-full inline-block mb-1 font-bold">
-          🔥 PROMOÇÃO
+                <div className="text-lg font-bold text-red-600">
+                  R$ {product.promotionalPrice?.toFixed(2)}
+                </div>
+              </>
+            ) : (
+              <span className="text-lg font-bold text-orange-600">
+                R$ {product.price.toFixed(2)}
+              </span>
+            )}
+          </div>
+
+          <button
+            onClick={() => onAddToCart(product)}
+            className="
+              bg-orange-600
+              hover:bg-orange-700
+              text-white
+              px-3
+              py-2
+              rounded-lg
+              text-sm
+              font-bold
+              transition
+            "
+          >
+            +
+          </button>
         </div>
-
-        <div className="text-gray-400 line-through text-sm">
-          R$ {product.price.toFixed(2)}
-        </div>
-
-        <div className="text-2xl font-extrabold text-red-600">
-          R$ {product.promotionalPrice?.toFixed(2)}
-        </div>
-      </>
-    ) : (
-      <span className="text-2xl font-extrabold text-orange-600">
-        R$ {product.price.toFixed(2)}
-      </span>
-    )}
-  </div>
-
-  <button
-    onClick={() => onAddToCart(product)}
-    className="bg-orange-600 hover:bg-orange-700 text-white px-5 py-3 rounded-xl font-bold transition"
-  >
-    Adicionar
-  </button>
-
-</div>      </div>
+      </div>
     </article>
   );
 }
-

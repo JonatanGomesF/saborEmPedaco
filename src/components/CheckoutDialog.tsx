@@ -16,73 +16,73 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
   const [payment, setPayment] = useState("PIX");
   const [troco, setTroco] = useState("");
   const [phone, setPhone] = useState("");
-  
+
   if (!open) return null;
 
-const send = async () => {
-  if (!name || !phone || !street || !number) {
-    alert("Preencha nome, WhatsApp, rua e número");
-    return;
-  }
-
-  // salva cliente no Supabase
-  try {
-await supabase
-  .from("customers")
-  .insert([
-    {
-      name,
-      phone,
-      street,
-      number,
-      district,
-       last_order_value: totalPrice,
-    },
-  ]);
-  } catch (error) {
-    console.error(error);
-  }
-
-  let msg = `*NOVO PEDIDO - YAKINHOME*\n\n`;
-
-  msg += `*Nome:* ${name}\n`;
-  msg += `*WhatsApp:* ${phone}\n`;
-  msg += `*Endereço:* ${street}, ${number}`;
-
-  if (district) {
-    msg += ` - ${district}`;
-  }
-
-  msg += `\n\n*Pedido:*\n`;
-
-  cartItems.forEach((item) => {
-    msg += `• ${item.quantity}x ${item.name}`;
-
-    if (item.promotionActive) {
-  msg += ` 🔥 PROMOÇÃO`;
-}
-
-    if (item.size) {
-      msg += ` (${item.size})`;
+  const send = async () => {
+    if (!name || !phone || !street || !number) {
+      alert("Preencha nome, WhatsApp, rua e número");
+      return;
     }
 
-    msg += ` - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
-  });
+    // salva cliente no Supabase
+    try {
+      await supabase
+        .from("customers")
+        .insert([
+          {
+            name,
+            phone,
+            street,
+            number,
+            district,
+            last_order_value: totalPrice,
+          },
+        ]);
+    } catch (error) {
+      console.error(error);
+    }
 
-  msg += `\n*Total:* R$ ${totalPrice.toFixed(2)}\n`;
-  msg += `*Pagamento:* ${payment}`;
+    let msg = `*NOVO PEDIDO - YAKINHOME*\n\n`;
 
-  if (payment === "Dinheiro" && troco) {
-    msg += ` (troco para R$ ${troco})`;
-  }
+    msg += `*Nome:* ${name}\n`;
+    msg += `*WhatsApp:* ${phone}\n`;
+    msg += `*Endereço:* ${street}, ${number}`;
 
-  const url = `https://wa.me/5511963872966?text=${encodeURIComponent(msg)}`;
+    if (district) {
+      msg += ` - ${district}`;
+    }
 
-  window.open(url, "_blank");
+    msg += `\n\n*Pedido:*\n`;
 
-  clearCart();
-  onOpenChange(false);
-};
+    cartItems.forEach((item) => {
+      msg += `• ${item.quantity}x ${item.name}`;
+
+      if (item.promotionActive) {
+        msg += ` 🔥 PROMOÇÃO`;
+      }
+
+      if (item.size) {
+        msg += ` (${item.size})`;
+      }
+
+      msg += ` - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+    });
+
+    msg += `\n*Total:* R$ ${totalPrice.toFixed(2)}\n`;
+    msg += `*Pagamento:* ${payment}`;
+
+    if (payment === "Dinheiro" && troco) {
+      msg += ` (troco para R$ ${troco})`;
+    }
+
+    const url = `https://wa.me/5511963872966?text=${encodeURIComponent(msg)}`;
+
+    window.open(url, "_blank");
+
+    clearCart();
+    onOpenChange(false);
+  };
   return (
     <div className="fixed inset-0 bg-black/60 flex items-center justify-center z-50">
       <div className="bg-white w-full max-w-md rounded-2xl p-6 space-y-4 relative">
@@ -104,7 +104,7 @@ await supabase
           className="w-full border p-2 rounded"
         />
 
-                <input
+        <input
           placeholder="WhatsApp"
           value={phone}
           onChange={(e) => setPhone(e.target.value)}

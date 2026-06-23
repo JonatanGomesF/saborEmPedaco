@@ -1,1 +1,15 @@
 @import "tailwindcss";
+
+@keyframes bannerScroll {
+    from {
+        transform: translateX(100%);
+    }
+
+    to {
+        transform: translateX(-100%);
+    }
+}
+
+.animate-banner {
+    animation: bannerScroll 25s linear infinite;
+}

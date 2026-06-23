@@ -10,7 +10,7 @@ export default function Home() {
   const promotions = usePromotions();
   return (
     <div className="min-h-screen bg-gray-50">
-     
+
 
       <section id="inicio">
         <Hero />
@@ -37,28 +37,36 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-{products.map((product) => {
-  const promotion = promotions.find(
-    (p) =>
-      p.product_id === product.id &&
-      p.active
-  );
+        <div
+          className="
+    grid
+    gap-3
 
-  return (
-    <ProductCard
-      key={product.id}
-      product={{
-        ...product,
-        promotionActive: !!promotion,
-        promotionalPrice: promotion
-          ? product.price - promotion.discount
-          : undefined,
-      }}
-      onAddToCart={addToCart}
-    />
-  );
-})}        </div>
+    md:grid-cols-2
+    lg:grid-cols-3
+  "
+        >
+          {products.map((product) => {
+            const promotion = promotions.find(
+              (p) =>
+                p.product_id === product.id &&
+                p.active
+            );
+
+            return (
+              <ProductCard
+                key={product.id}
+                product={{
+                  ...product,
+                  promotionActive: !!promotion,
+                  promotionalPrice: promotion
+                    ? product.price - promotion.discount
+                    : undefined,
+                }}
+                onAddToCart={addToCart}
+              />
+            );
+          })}        </div>
       </section>
 
       {/* Sobre */}
