@@ -13,14 +13,17 @@ type Product = {
 type ProductCardProps = {
   product: Product;
   onAddToCart: (product: Product) => void;
+  onOpenProduct: (product: Product) => void;
 };
 
 export default function ProductCard({
   product,
   onAddToCart,
+  onOpenProduct,
 }: ProductCardProps) {
   return (
     <article
+      onClick={() => onOpenProduct(product)}
       className="
     bg-black/20
     backdrop-blur-md
@@ -115,7 +118,10 @@ export default function ProductCard({
           </div>
 
           <button
-            onClick={() => onAddToCart(product)}
+            onClick={(e) => {
+              e.stopPropagation();
+              onAddToCart(product);
+            }}
             className="
               bg-orange-600
               hover:bg-orange-700

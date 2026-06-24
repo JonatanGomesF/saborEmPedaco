@@ -1,13 +1,22 @@
 
 import Hero from "../components/Hero";
+import { useState } from "react";
+import type { Product } from "../data/products";
 import ProductCard from "../components/ProductCard";
 import PromotionBanner from "../components/PromotionBanner";
 import { products } from "../data/products";
+import ProductModal from "../components/ProductModal";
 import { useCart } from "../context/CartContext";
 import { usePromotions } from "../hooks/usePromotions";
 export default function Home() {
   const { addToCart } = useCart();
   const promotions = usePromotions();
+  const [selectedProduct, setSelectedProduct] =
+    useState<Product | null>(null);
+
+  const [modalOpen, setModalOpen] =
+    useState(false);
+
   return (
     <div className="min-h-screen bg-gray-50">
 
@@ -64,10 +73,28 @@ export default function Home() {
                     : undefined,
                 }}
                 onAddToCart={addToCart}
+                onOpenProduct={(product) => {
+                  setSelectedProduct(product);
+                  setModalOpen(true);
+                }}
               />
+
+
             );
+
+
           })}        </div>
       </section>
+
+      <ProductModal
+        open={modalOpen}
+        product={selectedProduct}
+        onClose={() => {
+          setModalOpen(false);
+          setSelectedProduct(null);
+        }}
+        onAddToCart={addToCart}
+      />
 
       {/* Sobre */}
       <section
