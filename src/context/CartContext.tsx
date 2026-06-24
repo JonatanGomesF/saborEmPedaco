@@ -15,10 +15,19 @@ export type Product = {
   size: string;
   image: string;
 
+  quantity?: number;
+
+  observation?: string;
+
+  extras?: {
+    id: number;
+    name: string;
+    price: number;
+  }[];
+
   promotionalPrice?: number;
   promotionActive?: boolean;
 };
-
 export type CartItem = Product & {
   quantity: number;
 };
@@ -72,37 +81,40 @@ export function CartProvider({ children }: ProviderProps) {
       const existingItem = currentItems.find(
         (item) =>
           item.id === product.id &&
-          item.size === product.size
+          item.size === product.size &&
+          item.observation === product.observation
       );
 
       if (existingItem) {
         return currentItems.map((item) =>
-          item.id === product.id &&
-          item.size === product.size
+          item === existingItem
             ? {
-                ...item,
-                quantity: item.quantity + 1,
-              }
+              ...item,
+              quantity:
+                item.quantity +
+                (product.quantity || 1),
+            }
             : item
         );
       }
 
-return [
-  ...currentItems,
-  {
-    ...product,
+      return [
+        ...currentItems,
+        {
+          ...product,
 
-    price:
-      product.promotionActive &&
-      product.promotionalPrice
-        ? product.promotionalPrice
-        : product.price,
+          price:
+            product.promotionActive &&
+              product.promotionalPrice
+              ? product.promotionalPrice
+              : product.price,
 
-    quantity: 1,
-  },
-];    });
+          quantity:
+            product.quantity || 1,
+        },
+      ];
+    });
   };
-
   const removeFromCart = (id: number) => {
     setCartItems((currentItems) =>
       currentItems.filter((item) => item.id !== id)
@@ -114,9 +126,9 @@ return [
       currentItems.map((item) =>
         item.id === id
           ? {
-              ...item,
-              quantity: item.quantity + 1,
-            }
+            ...item,
+            quantity: item.quantity + 1,
+          }
           : item
       )
     );
@@ -128,9 +140,9 @@ return [
         .map((item) =>
           item.id === id
             ? {
-                ...item,
-                quantity: item.quantity - 1,
-              }
+              ...item,
+              quantity: item.quantity - 1,
+            }
             : item
         )
         .filter((item) => item.quantity > 0)

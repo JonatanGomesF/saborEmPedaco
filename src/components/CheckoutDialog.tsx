@@ -58,15 +58,32 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
     cartItems.forEach((item) => {
       msg += `• ${item.quantity}x ${item.name}`;
 
-      if (item.promotionActive) {
-        msg += ` 🔥 PROMOÇÃO`;
-      }
-
       if (item.size) {
         msg += ` (${item.size})`;
       }
 
-      msg += ` - R$ ${(item.price * item.quantity).toFixed(2)}\n`;
+      msg += `\n`;
+
+      if (item.promotionActive) {
+        msg += `🔥 PROMOÇÃO ATIVA\n`;
+      }
+
+      if (
+        item.extras &&
+        item.extras.length > 0
+      ) {
+        msg += `Adicionais:\n`;
+
+        item.extras.forEach((extra) => {
+          msg += `   + ${extra.name} (R$ ${extra.price.toFixed(2)})\n`;
+        });
+      }
+
+      if (item.observation) {
+        msg += `Obs: ${item.observation}\n`;
+      }
+
+      msg += `Subtotal: R$ ${(item.price * item.quantity).toFixed(2)}\n\n`;
     });
 
     msg += `\n*Total:* R$ ${totalPrice.toFixed(2)}\n`;

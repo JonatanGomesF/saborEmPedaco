@@ -6,8 +6,18 @@ type CartItem = {
   price: number;
   quantity: number;
   image: string;
-  promotionalPrice?: number;
+
+  size?: string;
+
+  observation?: string;
+
   promotionActive?: boolean;
+
+  extras?: {
+    id: number;
+    name: string;
+    price: number;
+  }[];
 };
 
 type CartProps = {
@@ -69,9 +79,34 @@ export default function Cart({
                 <div className="flex-1">
                   <div className="flex justify-between items-center">
                     <div>
-                      <h3 className="font-semibold">
-                        {item.name}
-                      </h3>
+                      <div>
+                        <h3 className="font-semibold">
+                          {item.name}
+                        </h3>
+
+                        {item.extras &&
+                          item.extras.length > 0 && (
+                            <div className="text-xs text-green-600 mt-1">
+                              {item.extras.map((extra) => (
+                                <div key={extra.id}>
+                                  + {extra.name}
+                                </div>
+                              ))}
+                            </div>
+                          )}
+
+                        {item.observation && (
+                          <div className="text-xs text-gray-500 italic mt-1">
+                            Obs: {item.observation}
+                          </div>
+                        )}
+
+                        {item.promotionActive && (
+                          <div className="text-xs text-red-500 font-bold mt-1">
+                            🔥 Promoção
+                          </div>
+                        )}
+                      </div>
 
                       {item.promotionActive && (
                         <span className="text-xs bg-red-500 text-white px-2 py-1 rounded-full">
