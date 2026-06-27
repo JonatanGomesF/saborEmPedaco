@@ -1,3 +1,5 @@
+import { Plus } from "lucide-react";
+
 type Product = {
   id: number;
   name: string;
@@ -5,7 +7,6 @@ type Product = {
   price: number;
   size: string;
   image: string;
-
   promotionalPrice?: number;
   promotionActive?: boolean;
 };
@@ -16,102 +17,60 @@ type ProductCardProps = {
   onOpenProduct: (product: Product) => void;
 };
 
-export default function ProductCard({
-  product,
-  onAddToCart,
-  onOpenProduct,
-}: ProductCardProps) {
+export default function ProductCard({ product, onAddToCart, onOpenProduct }: ProductCardProps) {
   return (
     <article
       onClick={() => onOpenProduct(product)}
-      className="
-    bg-black/20
-    backdrop-blur-md
-
-    rounded-xl
-    shadow
-
-    overflow-hidden
-    border
-    border-white/30
-
-    flex
-    items-center
-
-    hover:shadow-lg
-    transition
-  "
+      className="group bg-white rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-xl shadow-sm transition-all duration-300 cursor-pointer overflow-hidden flex flex-col"
     >
-      {/* Imagem */}
-      <div
-        className="
-          w-28
-          h-28
-          flex-shrink-0
-        "
-      >
+      {/* Image */}
+      <div className="relative w-full h-44 overflow-hidden bg-gray-50 flex-shrink-0">
         <img
           src={product.image}
           alt={product.name}
-          className="
-            w-full
-            h-full
-            object-cover
-          "
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
         />
+        {/* Gradient overlay bottom */}
+        <div className="absolute inset-0 bg-gradient-to-t from-black/30 via-transparent to-transparent" />
+
+        {/* Promo badge */}
+        {product.promotionActive && (
+          <div className="absolute top-3 left-3 bg-[#c0261a] text-white text-[9px] font-black px-2.5 py-1 rounded-full shadow-md">
+            PROMOÇÃO
+          </div>
+        )}
+
+        {/* Size badge */}
+        <div className="absolute bottom-3 left-3 bg-black/50 backdrop-blur-sm text-white text-[9px] font-black px-2.5 py-1 rounded-full">
+          {product.size}
+        </div>
       </div>
 
-      {/* Conteúdo */}
-      <div className="flex-1 p-3">
-        <div className="flex justify-between items-start gap-2">
-          <div>
-            <h3 className="font-bold text-base text-gray-900">
-              {product.name}
-            </h3>
-
-            <span
-              className="
-                inline-block
-                mt-1
-                bg-orange-100
-                text-orange-600
-                px-2
-                py-1
-                rounded-full
-                text-xs
-                font-semibold
-              "
-            >
-              {product.size}
-            </span>
-          </div>
+      {/* Content */}
+      <div className="flex-1 p-4 flex flex-col justify-between gap-3">
+        <div>
+          <h3 className="font-extrabold text-[15px] text-gray-900 leading-snug group-hover:text-[#c0261a] transition-colors duration-200">
+            {product.name}
+          </h3>
+          <p className="text-gray-400 text-[12px] mt-1 leading-relaxed line-clamp-2">
+            {product.description}
+          </p>
         </div>
 
-        <p
-          className="
-            text-gray-500
-            text-xs
-            mt-2
-            line-clamp-2
-          "
-        >
-          {product.description}
-        </p>
-
-        <div className="mt-3 flex items-center justify-between">
+        {/* Price + Add button */}
+        <div className="flex items-center justify-between">
           <div>
             {product.promotionActive ? (
-              <>
-                <div className="text-xs text-gray-400 line-through">
+              <div>
+                <span className="text-[11px] text-gray-400 line-through block">
                   R$ {product.price.toFixed(2)}
-                </div>
-
-                <div className="text-lg font-bold text-red-600">
+                </span>
+                <span className="text-base font-black text-[#c0261a]">
                   R$ {product.promotionalPrice?.toFixed(2)}
-                </div>
-              </>
+                </span>
+              </div>
             ) : (
-              <span className="text-lg font-bold text-orange-600">
+              <span className="text-base font-black text-gray-900">
                 R$ {product.price.toFixed(2)}
               </span>
             )}
@@ -120,21 +79,31 @@ export default function ProductCard({
           <button
             onClick={(e) => {
               e.stopPropagation();
+
+              // Feedback visual no botão
+              const btn = e.currentTarget;
+              btn.classList.add("scale-75");
+              setTimeout(() => btn.classList.remove("scale-75"), 180);
+
+              // Dispara a animação no próximo frame para garantir fluidez
+              const rect = btn.getBoundingClientRect();
+              requestAnimationFrame(() => {
+                window.dispatchEvent(
+                  new CustomEvent("add-to-cart-animation", {
+                    detail: {
+                      x: rect.left + rect.width / 2,
+                      y: rect.top + rect.height / 2,
+                      image: product.image,
+                    },
+                  })
+                );
+              });
+
               onAddToCart(product);
             }}
-            className="
-              bg-orange-600
-              hover:bg-orange-700
-              text-white
-              px-3
-              py-2
-              rounded-lg
-              text-sm
-              font-bold
-              transition
-            "
+            className="w-9 h-9 rounded-xl bg-[#c0261a] hover:bg-[#9e1c12] text-white flex items-center justify-center transition-all duration-150 shadow-md shadow-red-900/20 hover:shadow-red-900/40 hover:-translate-y-0.5 cursor-pointer"
           >
-            +
+            <Plus size={16} strokeWidth={2.5} />
           </button>
         </div>
       </div>
