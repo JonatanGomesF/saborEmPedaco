@@ -1,57 +1,121 @@
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { supabase } from "../services/supabase";
+import { ChefHat, Mail, Lock, LogIn, Eye, EyeOff } from "lucide-react";
 
 export default function AdminLogin() {
-  const [email, setEmail] = useState("");
+  const [email, setEmail]       = useState("");
   const [password, setPassword] = useState("");
-
+  const [showPwd, setShowPwd]   = useState(false);
+  const [loading, setLoading]   = useState(false);
+  const [error, setError]       = useState("");
   const navigate = useNavigate();
 
-  async function login() {
-    const { error } =
-      await supabase.auth.signInWithPassword({
-        email,
-        password,
-      });
-
+  const login = async (e: React.FormEvent) => {
+    e.preventDefault();
+    setError("");
+    setLoading(true);
+    const { error } = await supabase.auth.signInWithPassword({ email, password });
+    setLoading(false);
     if (error) {
-      alert(error.message);
+      setError("E-mail ou senha incorretos.");
       return;
     }
-
-    navigate("/admin/clientes");
-  }
+    navigate("/admin");
+  };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="bg-white p-8 rounded-xl shadow w-[400px]">
-        <h1 className="text-2xl font-bold mb-6">
-          Painel Administrativo
-        </h1>
+    <div className="min-h-screen bg-[#090909] flex items-center justify-center px-4 font-sans-montserrat">
+      {/* Glow de fundo */}
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_60%_50%_at_50%_60%,rgba(130,14,14,0.22)_0%,transparent_70%)] pointer-events-none" />
 
-        <input
-          type="email"
-          placeholder="E-mail"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="w-full border p-3 rounded mb-3"
-        />
-
-        <input
-          type="password"
-          placeholder="Senha"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="w-full border p-3 rounded mb-4"
-        />
-
-        <button
-          onClick={login}
-          className="w-full bg-orange-500 text-white py-3 rounded-lg font-bold"
+      <div className="relative w-full max-w-sm">
+        {/* Card */}
+        <div
+          className="rounded-2xl p-8 space-y-6"
+          style={{ background: "rgba(20,20,20,0.95)", border: "1px solid rgba(255,255,255,0.07)", backdropFilter: "blur(12px)" }}
         >
-          Entrar
-        </button>
+          {/* Header */}
+          <div className="flex flex-col items-center gap-3 text-center">
+            <div className="w-14 h-14 rounded-2xl bg-[#c0261a] flex items-center justify-center shadow-lg shadow-red-900/40">
+              <ChefHat size={28} className="text-white" />
+            </div>
+            <div>
+              <h1 className="text-white font-black text-xl tracking-tight">
+                Yakin<span className="text-[#c0261a]">Home</span>
+              </h1>
+              <p className="text-white/30 text-xs font-semibold tracking-wider mt-0.5 uppercase">Painel Administrativo</p>
+            </div>
+          </div>
+
+          {/* Divider */}
+          <div className="h-px bg-white/[0.06]" />
+
+          {/* Form */}
+          <form onSubmit={login} className="space-y-4">
+            {/* Email */}
+            <div className="space-y-1.5">
+              <label className="text-white/40 text-[10px] font-bold tracking-[0.2em] uppercase">E-mail</label>
+              <div className="relative">
+                <Mail size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/25" />
+                <input
+                  type="email"
+                  value={email}
+                  onChange={(e) => setEmail(e.target.value)}
+                  required
+                  placeholder="admin@yakinhome.com"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] focus:border-[#c0261a]/60 focus:ring-1 focus:ring-[#c0261a]/20 rounded-xl pl-9 pr-4 py-3 text-white text-sm outline-none transition-all duration-200 placeholder:text-white/20"
+                />
+              </div>
+            </div>
+
+            {/* Senha */}
+            <div className="space-y-1.5">
+              <label className="text-white/40 text-[10px] font-bold tracking-[0.2em] uppercase">Senha</label>
+              <div className="relative">
+                <Lock size={14} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-white/25" />
+                <input
+                  type={showPwd ? "text" : "password"}
+                  value={password}
+                  onChange={(e) => setPassword(e.target.value)}
+                  required
+                  placeholder="••••••••"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] focus:border-[#c0261a]/60 focus:ring-1 focus:ring-[#c0261a]/20 rounded-xl pl-9 pr-10 py-3 text-white text-sm outline-none transition-all duration-200 placeholder:text-white/20"
+                />
+                <button
+                  type="button"
+                  onClick={() => setShowPwd((v) => !v)}
+                  className="absolute right-3.5 top-1/2 -translate-y-1/2 text-white/25 hover:text-white/60 transition-colors cursor-pointer"
+                >
+                  {showPwd ? <EyeOff size={14} /> : <Eye size={14} />}
+                </button>
+              </div>
+            </div>
+
+            {/* Erro */}
+            {error && (
+              <div className="text-[11px] text-red-400 font-semibold bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+                {error}
+              </div>
+            )}
+
+            {/* Submit */}
+            <button
+              type="submit"
+              disabled={loading}
+              className="group w-full flex items-center justify-center gap-2 bg-[#c0261a] hover:bg-[#a31d12] disabled:opacity-60 text-white font-black text-sm tracking-wider uppercase rounded-xl py-3.5 transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg shadow-red-900/30 cursor-pointer overflow-hidden relative"
+            >
+              <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
+              <LogIn size={16} className="relative z-10" />
+              <span className="relative z-10">{loading ? "Entrando..." : "Entrar"}</span>
+            </button>
+          </form>
+        </div>
+
+        {/* Footer */}
+        <p className="text-center text-white/15 text-[10px] font-medium mt-4">
+          © {new Date().getFullYear()} YakinHome — Acesso restrito
+        </p>
       </div>
     </div>
   );
