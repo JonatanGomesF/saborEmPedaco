@@ -10,6 +10,7 @@ export type DeliverySettings = {
   baseFee: number;
   freeDistanceKm: number;
   storeAddress: string;
+  storeCep?: string;
   rules: DeliveryRule[];
 };
 
@@ -17,6 +18,7 @@ const DEFAULT_SETTINGS: DeliverySettings = {
   baseFee: 0,
   freeDistanceKm: 1,
   storeAddress: "",
+  storeCep: "13310200",
   rules: [
     { id: 1, minKm: 1, maxKm: 1, fee: 3, label: "Acima de 1km" },
     { id: 2, minKm: 2, maxKm: 3, fee: 4, label: "Acima de 3km" },

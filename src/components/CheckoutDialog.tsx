@@ -44,13 +44,39 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
   const totalWithDelivery = useMemo(() => totalPrice + deliveryFee, [totalPrice, deliveryFee]);
 
   const updateDeliveryFee = async (destinationAddress: string) => {
-    if (!settings.storeAddress || !destinationAddress.trim()) {
+    if (!destinationAddress.trim()) {
       setDistanceKm(null);
       setDeliveryFee(0);
       return;
     }
 
-    const distance = await estimateDistanceKm(settings.storeAddress, destinationAddress);
+    // Resolve store address: prefer explicit storeAddress, otherwise try storeCep
+    let storeAddr = settings.storeAddress || "";
+    const cepRaw = (settings.storeCep ?? "").replace(/\D/g, "");
+    if (!storeAddr && cepRaw.length === 8) {
+      try {
+        const resp = await fetch(`https://viacep.com.br/ws/${cepRaw}/json/`);
+        const d = await resp.json();
+        if (d && !d.erro) {
+          const parts = [];
+          if (d.logradouro) parts.push(d.logradouro);
+          if (d.bairro) parts.push(d.bairro);
+          if (d.localidade) parts.push(d.localidade);
+          if (d.uf) parts.push(d.uf);
+          storeAddr = `${parts.join(", ")} ${cepRaw}`.trim();
+        }
+      } catch {
+        // ignore and fallback to whatever storeAddr we have
+      }
+    }
+
+    if (!storeAddr) {
+      setDistanceKm(null);
+      setDeliveryFee(0);
+      return;
+    }
+
+    const distance = await estimateDistanceKm(storeAddr, destinationAddress);
     if (distance === null) {
       setDistanceKm(null);
       setDeliveryFee(0);
@@ -68,7 +94,7 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
 
     const destinationAddress = `${street}${number ? ` ${number}` : ""}${district ? `, ${district}` : ""}${cep ? `, ${cep}` : ""}`.trim();
     updateDeliveryFee(destinationAddress);
-  }, [settings.storeAddress, street, number, district, cep]);
+  }, [settings.storeAddress, settings.storeCep, street, number, district, cep]);
 
   const handleCepChange = async (value: string) => {
     const cleaned = value.replace(/\D/g, "").slice(0, 8);
