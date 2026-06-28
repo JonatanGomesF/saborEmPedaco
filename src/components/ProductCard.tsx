@@ -1,15 +1,5 @@
 import { Plus } from "lucide-react";
-
-type Product = {
-  id: number;
-  name: string;
-  description: string;
-  price: number;
-  size: string;
-  image: string;
-  promotionalPrice?: number;
-  promotionActive?: boolean;
-};
+import type { Product } from "../data/products";
 
 type ProductCardProps = {
   product: Product;
@@ -18,10 +8,16 @@ type ProductCardProps = {
 };
 
 export default function ProductCard({ product, onAddToCart, onOpenProduct }: ProductCardProps) {
+  const isAvailable = product.available !== false;
+
   return (
     <article
-      onClick={() => onOpenProduct(product)}
-      className="group bg-white rounded-3xl border border-gray-100 hover:border-gray-200 hover:shadow-xl shadow-sm transition-all duration-300 cursor-pointer overflow-hidden flex flex-col"
+      onClick={() => isAvailable && onOpenProduct(product)}
+      className={`group relative bg-white rounded-3xl border border-gray-100 transition-all duration-300 overflow-hidden flex flex-col ${
+        isAvailable
+          ? "hover:border-gray-200 hover:shadow-xl cursor-pointer"
+          : "border-gray-200 shadow-sm bg-white/90 cursor-not-allowed grayscale-[0.35] opacity-80"
+      }`}
     >
       {/* Image */}
       <div className="relative aspect-square sm:aspect-[4/3] overflow-hidden bg-gray-50 flex-shrink-0">
@@ -79,6 +75,7 @@ export default function ProductCard({ product, onAddToCart, onOpenProduct }: Pro
           <button
             onClick={(e) => {
               e.stopPropagation();
+              if (!isAvailable) return;
 
               // Feedback visual no botão
               const btn = e.currentTarget;
@@ -101,7 +98,12 @@ export default function ProductCard({ product, onAddToCart, onOpenProduct }: Pro
 
               onAddToCart(product);
             }}
-            className="w-9 h-9 rounded-xl bg-[#c0261a] hover:bg-[#9e1c12] text-white flex items-center justify-center transition-all duration-150 shadow-md shadow-red-900/20 hover:shadow-red-900/40 hover:-translate-y-0.5 cursor-pointer"
+            disabled={!isAvailable}
+            className={`w-9 h-9 rounded-xl text-white flex items-center justify-center transition-all duration-150 shadow-md shadow-red-900/20 ${
+              isAvailable
+                ? "bg-[#c0261a] hover:bg-[#9e1c12] hover:shadow-red-900/40 hover:-translate-y-0.5 cursor-pointer"
+                : "bg-gray-300 text-gray-500 cursor-not-allowed"
+            }`}
           >
             <Plus size={16} strokeWidth={2.5} />
           </button>

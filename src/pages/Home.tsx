@@ -1,13 +1,13 @@
 
 import Hero from "../components/Hero";
 import { useState } from "react";
-import type { Product } from "../data/products";
 import ProductCard from "../components/ProductCard";
 import PromotionBanner from "../components/PromotionBanner";
-import { products } from "../data/products";
 import ProductModal from "../components/ProductModal";
 import { useCart } from "../context/CartContext";
 import { usePromotions } from "../hooks/usePromotions";
+import { getProductAvailability } from "../lib/productAvailability";
+import { products, type Product } from "../data/products";
 import { Phone, Clock, MapPin } from "lucide-react";
 
 // Local Yakisoba Assets for the About Us Row
@@ -26,6 +26,12 @@ export default function Home() {
 
   const [modalOpen, setModalOpen] =
     useState(false);
+
+  const availability = getProductAvailability();
+  const availableProducts = products.map((product) => ({
+    ...product,
+    available: availability[product.id] !== false,
+  }));
 
   // Form states
   const [name, setName] = useState("");
@@ -131,7 +137,7 @@ export default function Home() {
         </div>
 
         <div className="grid gap-3 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {products.map((product) => {
+          {availableProducts.map((product) => {
             const promotion = promotions.find(
               (p) => p.product_id === product.id && p.active
             );

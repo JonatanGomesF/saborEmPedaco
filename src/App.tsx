@@ -7,6 +7,7 @@ import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminPedidos from "./pages/AdminPedidos";
 import AdminLocalidade from "./pages/AdminLocalidade";
+import AdminProdutos from "./pages/AdminProdutos";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Cart from "./components/Cart";
@@ -156,6 +157,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminPromocoes />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/estoque"
+          element={
+            <ProtectedRoute>
+              <AdminProdutos />
             </ProtectedRoute>
           }
         />

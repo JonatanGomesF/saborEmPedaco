@@ -14,6 +14,7 @@ export type Product = {
   image: string;
   promotionalPrice?: number;
   promotionActive?: boolean;
+  available?: boolean;
 };
 
 export const products: Product[] = [

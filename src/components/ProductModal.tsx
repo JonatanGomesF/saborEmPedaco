@@ -57,6 +57,8 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
     );
   }
 
+  const isAvailable = product.available !== false;
+
   const extrasPrice = extras
     .filter((e) => selectedExtras.includes(e.id))
     .reduce((t, e) => t + e.price, 0);
@@ -136,6 +138,11 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
               </div>
             </div>
             <p className="text-[13px] text-gray-500 mt-1 leading-relaxed">{product.description}</p>
+            {!isAvailable && (
+              <div className="mt-3 inline-flex items-center gap-2 rounded-full bg-red-50 px-3 py-2 text-red-700 text-xs font-black uppercase tracking-[0.16em]">
+                ESGOTADO
+              </div>
+            )}
           </div>
 
           {/* ── Ingredients section ── */}
