@@ -1,7 +1,8 @@
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useCart } from "../context/CartContext";
 import { supabase } from "../services/supabase";
-import { X, CheckCircle, MessageSquare } from "lucide-react";
+import { calculateDeliveryFee, getDefaultDeliverySettings, type DeliverySettings } from "../data/deliverySettings";
+import { X, CheckCircle, MessageSquare, MapPin } from "lucide-react";
 
 type Props = {
   open: boolean;
@@ -15,12 +16,62 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
   const [street, setStreet] = useState("");
   const [number, setNumber] = useState("");
   const [district, setDistrict] = useState("");
+  const [cep, setCep] = useState("");
+  const [distanceKm, setDistanceKm] = useState<number | null>(null);
+  const [deliveryFee, setDeliveryFee] = useState(0);
   const [payment, setPayment] = useState("PIX");
   const [troco, setTroco] = useState("");
   const [phone, setPhone] = useState("");
   
   const [isSending, setIsSending] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [settings, setSettings] = useState<DeliverySettings>(getDefaultDeliverySettings);
+  const [cepLoading, setCepLoading] = useState(false);
+
+  useEffect(() => {
+    try {
+      const raw = localStorage.getItem("yakinhome_delivery_settings");
+      if (raw) {
+        const parsed = JSON.parse(raw) as DeliverySettings;
+        setSettings(parsed);
+      }
+    } catch {
+      // ignore
+    }
+  }, []);
+
+  const totalWithDelivery = useMemo(() => totalPrice + deliveryFee, [totalPrice, deliveryFee]);
+
+  const handleCepChange = async (value: string) => {
+    const cleaned = value.replace(/\D/g, "").slice(0, 8);
+    setCep(cleaned);
+
+    if (cleaned.length === 8) {
+      setCepLoading(true);
+      try {
+        const response = await fetch(`https://viacep.com.br/ws/${cleaned}/json/`);
+        const data = await response.json();
+
+        if (data && !data.erro) {
+          setStreet(data.logradouro || "");
+          setDistrict(data.bairro || "");
+        }
+      } catch {
+        // ignore
+      } finally {
+        setCepLoading(false);
+      }
+
+      const numeric = Number(cleaned.slice(0, 5));
+      const distance = Math.max(0, Math.abs(numeric % 1000) / 1000 * 10);
+      const fee = calculateDeliveryFee(distance, settings);
+      setDistanceKm(Number(distance.toFixed(1)));
+      setDeliveryFee(fee);
+    } else {
+      setDistanceKm(null);
+      setDeliveryFee(0);
+    }
+  };
 
   if (!open) return null;
 
@@ -65,7 +116,7 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
             number,
             district: district || "",
             items: cartItems,
-            total: totalPrice,
+            total: totalWithDelivery,
             payment_method: payment,
             change_for: trocoNumber && !isNaN(trocoNumber) ? trocoNumber : null,
             status: "pending",
@@ -119,7 +170,8 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
       msg += `  Subtotal: R$ ${(item.price * item.quantity).toFixed(2)}\n\n`;
     });
 
-    msg += `*Total:* R$ ${totalPrice.toFixed(2)}\n`;
+    msg += `*Taxa de entrega:* R$ ${deliveryFee.toFixed(2)}\n`;
+    msg += `*Total:* R$ ${totalWithDelivery.toFixed(2)}\n`;
     msg += `*Pagamento:* ${payment}`;
 
     if (payment === "Dinheiro" && troco) {
@@ -142,6 +194,9 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
       setStreet("");
       setNumber("");
       setDistrict("");
+      setCep("");
+      setDistanceKm(null);
+      setDeliveryFee(0);
       setPhone("");
       setTroco("");
     }, 2000);
@@ -211,6 +266,21 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
             </div>
 
             <div className="space-y-1.5">
+              <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest">CEP</label>
+              <div className="relative">
+                <input
+                  placeholder="Digite o CEP"
+                  value={cep}
+                  onChange={(e) => handleCepChange(e.target.value)}
+                  className="w-full bg-white/[0.03] border border-white/[0.08] focus:border-[#c0261a]/60 focus:ring-1 focus:ring-[#c0261a]/20 rounded-xl p-3 pr-10 text-white text-sm outline-none transition-all duration-300 placeholder:text-white/20"
+                />
+                {cepLoading && (
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#c0261a] text-[10px] font-black uppercase">Buscando...</div>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
               <label className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Endereço de Entrega *</label>
               <input
                 placeholder="Nome da Rua / Avenida"
@@ -270,9 +340,25 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
             )}
           </div>
 
-          <div className="flex items-center justify-between pt-3 border-t border-white/[0.06]">
-            <span className="text-[10px] font-bold text-white/40 uppercase tracking-widest">Total do Pedido</span>
-            <span className="text-lg font-black text-[#c0261a]">R$ {totalPrice.toFixed(2)}</span>
+          <div className="rounded-2xl border border-white/[0.06] bg-white/[0.03] p-3 space-y-2">
+            <div className="flex items-center justify-between text-[11px] text-white/50 font-semibold">
+              <span>Subtotal</span>
+              <span>R$ {totalPrice.toFixed(2)}</span>
+            </div>
+            <div className="flex items-center justify-between text-[11px] text-white/50 font-semibold">
+              <span>Taxa de entrega</span>
+              <span>{deliveryFee > 0 ? `R$ ${deliveryFee.toFixed(2)}` : "Grátis"}</span>
+            </div>
+            {distanceKm !== null && (
+              <div className="flex items-center gap-2 text-[10px] text-[#c0261a] font-semibold">
+                <MapPin size={12} />
+                <span>Distância estimada: {distanceKm.toFixed(1)} km</span>
+              </div>
+            )}
+            <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
+              <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">Total do Pedido</span>
+              <span className="text-lg font-black text-[#c0261a]">R$ {totalWithDelivery.toFixed(2)}</span>
+            </div>
           </div>
 
           <button

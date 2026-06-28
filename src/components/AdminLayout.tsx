@@ -10,6 +10,7 @@ import {
   Menu,
   X,
   ChefHat,
+  MapPin,
 } from "lucide-react";
 
 type Props = { children: React.ReactNode };
@@ -19,6 +20,7 @@ const navItems = [
   { to: "/admin/pedidos",   label: "Pedidos",     Icon: ShoppingBag     },
   { to: "/admin/clientes",  label: "Clientes",    Icon: Users           },
   { to: "/admin/promocoes", label: "Promoções",   Icon: Tag             },
+  { to: "/admin/localidade", label: "Localidade", Icon: MapPin          },
 ];
 
 export default function AdminLayout({ children }: Props) {

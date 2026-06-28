@@ -6,6 +6,7 @@ import AdminClientes from "./pages/AdminClientes";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminPedidos from "./pages/AdminPedidos";
+import AdminLocalidade from "./pages/AdminLocalidade";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Cart from "./components/Cart";
@@ -155,6 +156,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminPromocoes />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/localidade"
+          element={
+            <ProtectedRoute>
+              <AdminLocalidade />
             </ProtectedRoute>
           }
         />
