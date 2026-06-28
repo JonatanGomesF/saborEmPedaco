@@ -76,7 +76,6 @@ function App() {
 
       const img = document.createElement("img");
       img.src = image;
-      img.style.width  = "100%";
       img.style.height = "100%";
       img.style.objectFit = "cover";
       flyer.appendChild(img);
