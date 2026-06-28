@@ -12,6 +12,7 @@ import {
   X,
   ChefHat,
   MapPin,
+  Printer,
 } from "lucide-react";
 
 type Props = { children: React.ReactNode };
@@ -23,6 +24,7 @@ const navItems = [
   { to: "/admin/promocoes", label: "Promoções",   Icon: Tag             },
   { to: "/admin/estoque",   label: "Estoque",     Icon: Package         },
   { to: "/admin/localidade", label: "Localidade", Icon: MapPin          },
+  { to: "/admin/impressora", label: "Impressora", Icon: Printer         },
 ];
 
 export default function AdminLayout({ children }: Props) {

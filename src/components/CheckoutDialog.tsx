@@ -1,9 +1,10 @@
 import { useEffect, useMemo, useState } from "react";
 import { useCart } from "../context/CartContext";
 import { supabase } from "../services/supabase";
+import { connectBluetoothPrinter, disconnectBluetoothPrinter, isBluetoothPrinterConnected, isWebBluetoothAvailable, printBluetoothText } from "../services/bluetoothPrinter";
 import { calculateDeliveryFee, getDefaultDeliverySettings, type DeliverySettings } from "../data/deliverySettings";
 import { estimateDistanceKm } from "../lib/distance";
-import { X, CheckCircle, MessageSquare, MapPin } from "lucide-react";
+import { X, CheckCircle, MessageSquare, MapPin, Bluetooth } from "lucide-react";
 
 type Props = {
   open: boolean;
@@ -26,8 +27,85 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
   
   const [isSending, setIsSending] = useState(false);
   const [isSuccess, setIsSuccess] = useState(false);
+  const [printerStatus, setPrinterStatus] = useState<string>("Desconectado");
   const [settings, setSettings] = useState<DeliverySettings>(getDefaultDeliverySettings);
   const [cepLoading, setCepLoading] = useState(false);
+
+  const updatePrinterStatus = (status: string) => {
+    setPrinterStatus(status);
+  };
+
+  const handleConnectPrinter = async () => {
+    if (!isWebBluetoothAvailable()) {
+      alert("Web Bluetooth não é suportado pelo seu navegador.");
+      return;
+    }
+
+    try {
+      updatePrinterStatus("Conectando...");
+      await connectBluetoothPrinter();
+      updatePrinterStatus("Conectado");
+    } catch (error) {
+      console.error("Erro ao conectar impressora Bluetooth:", error);
+      updatePrinterStatus("Falha na conexão");
+      alert("Não foi possível conectar à impressora Bluetooth. Verifique se o dispositivo está ligado e tente novamente.");
+    }
+  };
+
+  const handleDisconnectPrinter = async () => {
+    try {
+      await disconnectBluetoothPrinter();
+    } catch (error) {
+      console.error("Erro ao desconectar impressora Bluetooth:", error);
+    } finally {
+      updatePrinterStatus("Desconectado");
+    }
+  };
+
+  const buildPrinterText = () => {
+    let text = "NOVO PEDIDO - YAKINHOME\n\n";
+    text += `Nome: ${name}\n`;
+    text += `WhatsApp: ${phone}\n`;
+    text += `Endereço: ${street}, ${number}`;
+    if (district) {
+      text += ` - ${district}`;
+    }
+    text += "\n\nPedido:\n";
+
+    cartItems.forEach((item) => {
+      text += `- ${item.quantity}x ${item.name}`;
+      if (item.size) {
+        text += ` (${item.size})`;
+      }
+      text += "\n";
+
+      if (item.promotionActive) {
+        text += "  PROMOÇÃO ATIVA\n";
+      }
+
+      if (item.extras && item.extras.length > 0) {
+        text += "  Adicionais:\n";
+        item.extras.forEach((extra) => {
+          text += `    + ${extra.name} (R$ ${extra.price.toFixed(2)})\n`;
+        });
+      }
+
+      if (item.observation) {
+        text += `  Obs: ${item.observation}\n`;
+      }
+
+      text += `  Subtotal: R$ ${(item.price * item.quantity).toFixed(2)}\n\n`;
+    });
+
+    text += `Taxa de entrega: R$ ${deliveryFee.toFixed(2)}\n`;
+    text += `Total: R$ ${totalWithDelivery.toFixed(2)}\n`;
+    text += `Pagamento: ${payment}`;
+    if (payment === "Dinheiro" && troco) {
+      text += ` (troco para R$ ${troco})`;
+    }
+
+    return text;
+  };
 
   useEffect(() => {
     try {
@@ -237,6 +315,23 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
 
     const url = `https://wa.me/5511963872966?text=${encodeURIComponent(msg)}`;
 
+    if (isWebBluetoothAvailable()) {
+      try {
+        if (!isBluetoothPrinterConnected()) {
+          updatePrinterStatus("Conectando...");
+          await connectBluetoothPrinter();
+          updatePrinterStatus("Conectado");
+        }
+
+        updatePrinterStatus("Imprimindo...");
+        await printBluetoothText(buildPrinterText());
+        updatePrinterStatus("Impressão concluída");
+      } catch (error) {
+        console.error("Erro ao imprimir pedido:", error);
+        updatePrinterStatus("Falha na impressão");
+      }
+    }
+
     setIsSending(false);
     setIsSuccess(true);
 
@@ -382,6 +477,29 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
                 <option value="Débito">Cartão de Débito</option>
                 <option value="Dinheiro">Dinheiro</option>
               </select>
+            </div>
+
+            <div className="flex flex-col gap-2 rounded-2xl border border-white/[0.08] bg-white/[0.03] p-3">
+              <div className="flex items-center justify-between text-[10px] uppercase font-bold text-white/50">
+                <span className="flex items-center gap-2"><Bluetooth size={14} /> Impressora Bluetooth</span>
+                <span className="font-semibold text-white">{printerStatus}</span>
+              </div>
+              <div className="flex gap-2">
+                <button
+                  onClick={handleConnectPrinter}
+                  type="button"
+                  className="flex-1 rounded-xl bg-[#c0261a] px-3 py-2 text-[11px] font-bold text-white transition hover:bg-[#d93025]"
+                >
+                  Conectar
+                </button>
+                <button
+                  onClick={handleDisconnectPrinter}
+                  type="button"
+                  className="flex-1 rounded-xl border border-white/[0.08] px-3 py-2 text-[11px] font-bold text-white transition hover:border-[#c0261a]"
+                >
+                  Desconectar
+                </button>
+              </div>
             </div>
 
             {payment === "Dinheiro" && (

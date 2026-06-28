@@ -3,6 +3,7 @@ import { Routes, Route } from "react-router-dom";
 import AdminPromocoes from "./pages/AdminPromocoes";
 import Home from "./pages/Home";
 import AdminClientes from "./pages/AdminClientes";
+import AdminImpressora from "./pages/AdminImpressora";
 import AdminLogin from "./pages/AdminLogin";
 import AdminDashboard from "./pages/AdminDashboard";
 import AdminPedidos from "./pages/AdminPedidos";
@@ -175,6 +176,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminLocalidade />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/impressora"
+          element={
+            <ProtectedRoute>
+              <AdminImpressora />
             </ProtectedRoute>
           }
         />
