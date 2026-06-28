@@ -79,7 +79,6 @@ export default function AdminDashboard() {
 
   // ── Gráfico SVG ──
   const maxRevenue = Math.max(...chart.map((d) => d.revenue), 1);
-  const BAR_W = 28;
   const CHART_H = 80;
 
   const metrics = [

@@ -255,7 +255,6 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
           {/* Add to cart button */}
           <button
             onClick={() => {
-              const rect = document.querySelector("#cart-button-desktop")?.getBoundingClientRect();
               window.dispatchEvent(
                 new CustomEvent("add-to-cart-animation", {
                   detail: { x: window.innerWidth / 2, y: window.innerHeight - 80, image: product.image },
