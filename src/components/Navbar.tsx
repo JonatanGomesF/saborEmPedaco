@@ -1,11 +1,5 @@
-import { useState } from "react";
-import {
-  Menu,
-  X,
-  MessageCircle,
-  ShoppingCart,
-} from "lucide-react";
-
+import { useState, useEffect } from "react";
+import { Menu, X, ShoppingCart } from "lucide-react";
 import { useCart } from "../context/CartContext";
 
 type NavbarProps = {
@@ -15,141 +9,130 @@ type NavbarProps = {
 export default function Navbar({ onOpenCart }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const { totalItems } = useCart();
+  const [animateCart, setAnimateCart] = useState(false);
+
+  useEffect(() => {
+    if (totalItems === 0) return;
+    setAnimateCart(true);
+    const timer = setTimeout(() => setAnimateCart(false), 600);
+    return () => clearTimeout(timer);
+  }, [totalItems]);
 
   return (
-    <header className="sticky top-0 z-50 bg-white shadow-md">
-      <div className="max-w-6xl mx-auto px-6 h-20 flex items-center justify-between">
-        
-        {/* Logo */}
+    <header className="sticky top-0 z-50 bg-[#0a0a0a] border-b border-white/[0.06] shadow-xl text-white font-sans-montserrat">
+      <div className="max-w-6xl mx-auto px-6 h-[60px] flex items-center justify-between">
+
+        {/* ── Logo: igual ao Hero ── */}
         <a
           href="/"
-          className="text-2xl font-extrabold text-orange-600"
+          className="flex items-center gap-2 transition-opacity duration-300 hover:opacity-85 active:scale-95"
         >
-          🥢 YakinHome
+          {/* Mini casa SVG */}
+          <svg width="22" height="20" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M28 22 Q26 15 28 8 Q30 1 28 0" stroke="#e8c87a" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.9"/>
+            <path d="M36 24 Q34 16 36 8 Q38 0 36 0" stroke="#e8c87a" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
+            <path d="M44 22 Q42 15 44 8 Q46 1 44 0" stroke="#e8c87a" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.9"/>
+            <path d="M6 42 L36 20 L66 42" stroke="#c0261a" strokeWidth="5" strokeLinejoin="round" fill="none" strokeLinecap="round"/>
+            <rect x="15" y="40" width="42" height="24" rx="2" fill="none" stroke="#c0261a" strokeWidth="3"/>
+            <rect x="27" y="46" width="18" height="13" rx="1.5" fill="none" stroke="#e8c87a" strokeWidth="2.5"/>
+            <line x1="36" y1="46" x2="36" y2="59" stroke="#e8c87a" strokeWidth="2"/>
+            <line x1="27" y1="52" x2="45" y2="52" stroke="#e8c87a" strokeWidth="2"/>
+          </svg>
+
+          {/* Nome — mesmo estilo do Hero */}
+          <span className="flex items-baseline leading-none">
+            <span
+              className="text-white font-black"
+              style={{ fontSize: "1.25rem", fontFamily: "'Montserrat', sans-serif", letterSpacing: "-0.02em" }}
+            >
+              Yakin
+            </span>
+            <span
+              className="text-[#c0261a] font-black"
+              style={{ fontSize: "1.25rem", fontFamily: "'Montserrat', sans-serif", letterSpacing: "-0.02em" }}
+            >
+              Home
+            </span>
+          </span>
         </a>
 
-        {/* Desktop */}
-        <nav className="hidden md:flex items-center gap-8">
-          <a href="#inicio" className="hover:text-orange-600">
-            Início
-          </a>
-
-          <a href="#cardapio" className="hover:text-orange-600">
-            Cardápio
-          </a>
-
-          <a href="#sobre" className="hover:text-orange-600">
-            Sobre
-          </a>
-
-          <a href="#contato" className="hover:text-orange-600">
-            Contato
-          </a>
-
-          {/* 🛒 Carrinho (CORRIGIDO AQUI) */}
-          <button
-            type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onOpenCart();
-            }}
-            className="relative flex items-center gap-2 cursor-pointer"
-          >
-            <ShoppingCart size={28} className="text-gray-700" />
-
-            {totalItems > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center">
-                {totalItems}
-              </span>
-            )}
-          </button>
-
-          {/* WhatsApp */}
-          <a
-            href="https://wa.me/5511963872966"
-            target="_blank"
-            rel="noreferrer"
-            className="flex items-center gap-2 bg-green-500 hover:bg-green-600 text-white px-5 py-3 rounded-xl font-bold transition"
-          >
-            <MessageCircle size={18} />
-            Pedir Agora
-          </a>
+        {/* ── Desktop nav ── */}
+        <nav className="hidden md:flex items-center gap-10">
+          {[
+            { href: "#sobre", label: "Sobre Nós" },
+            { href: "#cardapio", label: "Cardápio" },
+            { href: "#contato", label: "Contato" },
+          ].map((link) => (
+            <a
+              key={link.href}
+              href={link.href}
+              className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/50 hover:text-white relative py-2 transition-colors duration-300
+                         after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[1px] after:w-0
+                         hover:after:w-full after:bg-[#c0261a] after:transition-all after:duration-300"
+            >
+              {link.label}
+            </a>
+          ))}
         </nav>
 
-        {/* Mobile */}
-        <div className="md:hidden flex items-center gap-3">
-          
-          {/* Carrinho mobile (CORRIGIDO) */}
+        {/* ── Cart + mobile toggle ── */}
+        <div className="flex items-center gap-3">
           <button
             type="button"
-            onClick={(e) => {
-              e.preventDefault();
-              e.stopPropagation();
-              onOpenCart();
-            }}
-            className="relative"
+            id="cart-button-desktop"
+            onClick={(e) => { e.preventDefault(); e.stopPropagation(); onOpenCart(); }}
+            className={`relative flex items-center justify-center w-9 h-9 rounded-full hover:bg-white/8 text-white/50 hover:text-white cursor-pointer transition-all duration-300 ${animateCart ? "animate-cart-pop" : ""}`}
           >
-            <ShoppingCart size={26} />
-
+            <ShoppingCart size={19} />
             {totalItems > 0 && (
-              <span className="absolute -top-2 -right-2 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
+              <span className="absolute -top-0.5 -right-0.5 bg-[#c0261a] text-white text-[9px] font-black w-[18px] h-[18px] rounded-full flex items-center justify-center border border-[#0a0a0a] shadow-md">
                 {totalItems}
               </span>
             )}
           </button>
 
-          <button onClick={() => setOpen(!open)}>
-            {open ? <X size={28} /> : <Menu size={28} />}
+          <button
+            onClick={() => setOpen(!open)}
+            className="md:hidden p-2 text-white/50 hover:text-white transition-colors duration-300"
+          >
+            {open ? <X size={20} /> : <Menu size={20} />}
           </button>
         </div>
       </div>
 
-      {/* Mobile menu */}
-      {open && (
-        <div className="md:hidden bg-white border-t">
-          <nav className="flex flex-col p-4 gap-4">
-            <a href="#inicio" onClick={() => setOpen(false)}>
-              Início
-            </a>
-
-            <a href="#cardapio" onClick={() => setOpen(false)}>
-              Cardápio
-            </a>
-
-            <a href="#sobre" onClick={() => setOpen(false)}>
-              Sobre
-            </a>
-
-            <a href="#contato" onClick={() => setOpen(false)}>
-              Contato
-            </a>
-
-            {/* 🛒 Mobile carrinho (CORRIGIDO) */}
-            <button
-              type="button"
-              onClick={() => {
-                onOpenCart();
-                setOpen(false);
-              }}
-              className="flex items-center justify-center gap-2 py-2 font-bold"
-            >
-              <ShoppingCart size={22} />
-              {totalItems} item(ns)
-            </button>
-
+      {/* ── Mobile menu ── */}
+      <div
+        className={`md:hidden overflow-hidden transition-all duration-300 ease-in-out border-t border-white/[0.06] bg-[#0a0a0a] ${
+          open ? "max-h-64 opacity-100 py-4" : "max-h-0 opacity-0 py-0"
+        }`}
+      >
+        <nav className="flex flex-col px-6 gap-5">
+          {[
+            { href: "#sobre", label: "Sobre Nós" },
+            { href: "#cardapio", label: "Cardápio" },
+            { href: "#contato", label: "Contato" },
+          ].map((link) => (
             <a
-              href="https://wa.me/5511963872966"
-              target="_blank"
-              rel="noreferrer"
-              className="flex items-center justify-center gap-2 bg-green-500 text-white py-3 rounded-xl font-bold"
+              key={link.href}
+              href={link.href}
+              onClick={() => setOpen(false)}
+              className="text-white/50 text-[11px] font-bold uppercase tracking-[0.18em] hover:text-white py-1 transition-colors duration-200"
             >
-              <MessageCircle size={18} />
-              Pedir no WhatsApp
+              {link.label}
             </a>
-          </nav>
-        </div>
-      )}
+          ))}
+
+          <button
+            type="button"
+            id="cart-button-mobile"
+            onClick={() => { onOpenCart(); setOpen(false); }}
+            className="flex items-center justify-center gap-2 py-2.5 rounded-xl border border-white/10 bg-white/5 text-white font-bold hover:bg-white/10 transition-all duration-200 text-[11px] tracking-wider"
+          >
+            <ShoppingCart size={15} />
+            {totalItems} item(ns) no carrinho
+          </button>
+        </nav>
+      </div>
     </header>
   );
 }
