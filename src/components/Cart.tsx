@@ -64,7 +64,7 @@ export default function Cart({
       </div>
 
       {/* Cart Content */}
-      <div className="flex-1 overflow-y-auto p-6 space-y-4">
+      <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {items.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
             <span className="text-5xl animate-bounce">🍜</span>
@@ -85,10 +85,10 @@ export default function Cart({
           items.map((item) => (
             <div
               key={item.id}
-              className="group border border-gray-100 rounded-2xl p-4 flex gap-4 bg-white hover:border-red-100 transition-all duration-300 shadow-sm"
+              className="group border border-gray-100 rounded-3xl p-3 flex gap-3 bg-white hover:border-red-100 transition-all duration-300 shadow-sm"
             >
               {/* Product Thumbnail */}
-              <div className="w-16 h-16 rounded-xl overflow-hidden bg-gray-50 flex-shrink-0 relative">
+              <div className="w-14 h-14 rounded-2xl overflow-hidden bg-gray-50 flex-shrink-0 relative">
                 <img
                   src={item.image}
                   alt={item.name}
@@ -191,7 +191,7 @@ export default function Cart({
 
           <button
             onClick={onCheckout}
-            className="w-full bg-gradient-to-r from-[#b52626] to-[#8a1818] hover:from-[#8a1818] hover:to-[#5a0c0c] text-white py-4 px-6 rounded-2xl font-black text-center shadow-lg shadow-red-600/20 active:scale-98 transition-all duration-300 cursor-pointer text-sm md:text-base flex justify-center items-center gap-2 group relative overflow-hidden"
+            className="w-full bg-gradient-to-r from-[#b52626] to-[#8a1818] hover:from-[#8a1818] hover:to-[#5a0c0c] text-white py-3.5 px-5 rounded-2xl font-black text-center shadow-lg shadow-red-600/20 active:scale-98 transition-all duration-300 cursor-pointer text-sm md:text-sm flex justify-center items-center gap-2 group relative overflow-hidden"
           >
             <span>Finalizar pedido</span>
             <span className="opacity-30">•</span>

@@ -21,10 +21,10 @@ export default function ProductCard({ product, onAddToCart, onOpenProduct }: Pro
   return (
     <article
       onClick={() => onOpenProduct(product)}
-      className="group bg-white rounded-2xl border border-gray-100 hover:border-gray-200 hover:shadow-xl shadow-sm transition-all duration-300 cursor-pointer overflow-hidden flex flex-col"
+      className="group bg-white rounded-3xl border border-gray-100 hover:border-gray-200 hover:shadow-xl shadow-sm transition-all duration-300 cursor-pointer overflow-hidden flex flex-col"
     >
       {/* Image */}
-      <div className="relative w-full h-44 overflow-hidden bg-gray-50 flex-shrink-0">
+      <div className="relative aspect-square sm:aspect-[4/3] overflow-hidden bg-gray-50 flex-shrink-0">
         <img
           src={product.image}
           alt={product.name}
@@ -47,7 +47,7 @@ export default function ProductCard({ product, onAddToCart, onOpenProduct }: Pro
       </div>
 
       {/* Content */}
-      <div className="flex-1 p-4 flex flex-col justify-between gap-3">
+      <div className="flex-1 p-3 sm:p-4 flex flex-col justify-between gap-3">
         <div>
           <h3 className="font-extrabold text-[15px] text-gray-900 leading-snug group-hover:text-[#c0261a] transition-colors duration-200">
             {product.name}
