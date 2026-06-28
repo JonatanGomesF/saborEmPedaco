@@ -94,11 +94,14 @@ export default function AdminLocalidade() {
 
         <div className="grid grid-cols-1 xl:grid-cols-[1.2fr_0.8fr] gap-6">
           <div className="rounded-3xl p-5 border border-white/[0.06] bg-[#141414] shadow-2xl space-y-4">
-            <div className="flex items-center justify-between">
-              <h2 className="text-white font-black text-sm tracking-wide uppercase">Faixas de taxa</h2>
+            <div className="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+              <div>
+                <h2 className="text-white font-black text-sm tracking-wide uppercase">Faixas de taxa</h2>
+                <p className="text-white/40 text-[11px] mt-1 max-w-xl">Use a localização da loja para calcular distância real com base no CEP e no endereço de destino.</p>
+              </div>
               <button
                 onClick={addRule}
-                className="inline-flex items-center gap-2 text-[#c0261a] hover:text-[#ff5b3b] text-xs font-black uppercase transition-colors cursor-pointer"
+                className="inline-flex items-center gap-2 bg-[#c0261a] hover:bg-[#a31d12] text-white px-4 py-2.5 rounded-xl text-sm font-black tracking-wider uppercase transition-all duration-300 cursor-pointer"
               >
                 <Plus size={14} />
                 Nova faixa
@@ -172,6 +175,18 @@ export default function AdminLocalidade() {
             <div className="rounded-3xl p-5 border border-white/[0.06] bg-[#141414] shadow-2xl">
               <h2 className="text-white font-black text-sm tracking-wide uppercase">Configuração base</h2>
               <div className="mt-4 space-y-3">
+                <label className="space-y-1.5 block">
+                  <span className="text-[10px] font-bold text-white/35 uppercase tracking-widest">Endereço da loja</span>
+                  <input
+                    type="text"
+                    value={settings.storeAddress}
+                    onChange={(e) => setSettings((prev) => ({ ...prev, storeAddress: e.target.value }))}
+                    placeholder="Rua da Loja, Cidade, UF"
+                    className="w-full bg-white/[0.04] border border-white/[0.08] rounded-xl px-3 py-2.5 text-sm text-white outline-none focus:border-[#c0261a]/60"
+                  />
+                  <p className="text-[10px] text-white/30 mt-1">Use o endereço completo da loja para calcular distância real contra o CEP do cliente.</p>
+                </label>
+
                 <label className="space-y-1.5 block">
                   <span className="text-[10px] font-bold text-white/35 uppercase tracking-widest">Distância gratuita (km)</span>
                   <input

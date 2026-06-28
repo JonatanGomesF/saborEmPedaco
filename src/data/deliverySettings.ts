@@ -9,12 +9,14 @@ export type DeliveryRule = {
 export type DeliverySettings = {
   baseFee: number;
   freeDistanceKm: number;
+  storeAddress: string;
   rules: DeliveryRule[];
 };
 
 const DEFAULT_SETTINGS: DeliverySettings = {
   baseFee: 0,
   freeDistanceKm: 1,
+  storeAddress: "",
   rules: [
     { id: 1, minKm: 1, maxKm: 1, fee: 3, label: "Acima de 1km" },
     { id: 2, minKm: 2, maxKm: 3, fee: 4, label: "Acima de 3km" },
@@ -28,12 +30,17 @@ export function getDefaultDeliverySettings(): DeliverySettings {
   return structuredClone(DEFAULT_SETTINGS);
 }
 
+function getRoundedDistanceKm(distanceKm: number): number {
+  return Math.max(0, Math.ceil(distanceKm));
+}
+
 export function calculateDeliveryFee(distanceKm: number, settings: DeliverySettings) {
   if (distanceKm <= settings.freeDistanceKm) return settings.baseFee;
 
+  const roundedDistance = getRoundedDistanceKm(distanceKm);
   const matchingRule = settings.rules.find((rule) => {
-    if (rule.maxKm === null) return distanceKm >= rule.minKm;
-    return distanceKm >= rule.minKm && distanceKm <= rule.maxKm;
+    if (rule.maxKm === null) return roundedDistance >= rule.minKm;
+    return roundedDistance >= rule.minKm && roundedDistance <= rule.maxKm;
   });
 
   return matchingRule?.fee ?? settings.rules.at(-1)?.fee ?? settings.baseFee;

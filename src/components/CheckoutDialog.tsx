@@ -2,6 +2,7 @@ import { useEffect, useMemo, useState } from "react";
 import { useCart } from "../context/CartContext";
 import { supabase } from "../services/supabase";
 import { calculateDeliveryFee, getDefaultDeliverySettings, type DeliverySettings } from "../data/deliverySettings";
+import { estimateDistanceKm } from "../lib/distance";
 import { X, CheckCircle, MessageSquare, MapPin } from "lucide-react";
 
 type Props = {
@@ -42,35 +43,65 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
 
   const totalWithDelivery = useMemo(() => totalPrice + deliveryFee, [totalPrice, deliveryFee]);
 
+  const updateDeliveryFee = async (destinationAddress: string) => {
+    if (!settings.storeAddress || !destinationAddress.trim()) {
+      setDistanceKm(null);
+      setDeliveryFee(0);
+      return;
+    }
+
+    const distance = await estimateDistanceKm(settings.storeAddress, destinationAddress);
+    if (distance === null) {
+      setDistanceKm(null);
+      setDeliveryFee(0);
+      return;
+    }
+
+    const fee = calculateDeliveryFee(distance, settings);
+    setDistanceKm(Number(distance.toFixed(1)));
+    setDeliveryFee(fee);
+  };
+
+  useEffect(() => {
+    const shouldCalculate = cep.length === 8 && (street || district || number);
+    if (!shouldCalculate) return;
+
+    const destinationAddress = `${street}${number ? ` ${number}` : ""}${district ? `, ${district}` : ""}${cep ? `, ${cep}` : ""}`.trim();
+    updateDeliveryFee(destinationAddress);
+  }, [settings.storeAddress, street, number, district, cep]);
+
   const handleCepChange = async (value: string) => {
     const cleaned = value.replace(/\D/g, "").slice(0, 8);
     setCep(cleaned);
 
-    if (cleaned.length === 8) {
-      setCepLoading(true);
-      try {
-        const response = await fetch(`https://viacep.com.br/ws/${cleaned}/json/`);
-        const data = await response.json();
-
-        if (data && !data.erro) {
-          setStreet(data.logradouro || "");
-          setDistrict(data.bairro || "");
-        }
-      } catch {
-        // ignore
-      } finally {
-        setCepLoading(false);
-      }
-
-      const numeric = Number(cleaned.slice(0, 5));
-      const distance = Math.max(0, Math.abs(numeric % 1000) / 1000 * 10);
-      const fee = calculateDeliveryFee(distance, settings);
-      setDistanceKm(Number(distance.toFixed(1)));
-      setDeliveryFee(fee);
-    } else {
+    if (cleaned.length !== 8) {
       setDistanceKm(null);
       setDeliveryFee(0);
+      return;
     }
+
+    setCepLoading(true);
+    let streetValue = street;
+    let districtValue = district;
+
+    try {
+      const response = await fetch(`https://viacep.com.br/ws/${cleaned}/json/`);
+      const data = await response.json();
+
+      if (data && !data.erro) {
+        streetValue = data.logradouro || "";
+        districtValue = data.bairro || "";
+        setStreet(streetValue);
+        setDistrict(districtValue);
+      }
+    } catch {
+      // ignore
+    } finally {
+      setCepLoading(false);
+    }
+
+    const destinationAddress = `${streetValue}${number ? ` ${number}` : ""}${districtValue ? `, ${districtValue}` : ""}${cleaned ? `, ${cleaned}` : ""}`.trim();
+    await updateDeliveryFee(destinationAddress);
   };
 
   if (!open) return null;
