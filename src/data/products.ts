@@ -4,6 +4,7 @@ import camaraoImg from "../assets/yaki-camarao.png";
 import mistoImg from "../assets/yaki-misto.png";
 import especialImg from "../assets/yaki-especial.png";
 import yakiveg from "../assets/yaki-veg.png";
+import sushiPlateImg from "../assets/hero_sushi_plate.png";
 
 export type Product = {
   id: number;
@@ -128,11 +129,29 @@ export const products: Product[] = [
   },
   {
     id: 12,
-    name: "Yakisoba Vegetariano",
+    name: "Hot Temaky",
     description:
-      "Combinação vegetariana de legumes frescos com molho especial da casa.",
+      "Temaky quente preparado na hora com arroz, nori e recheio especial.",
     price: 32.9,
-    size: "750g",
-    image: yakiveg,
+    size: "1 un.",
+    image: sushiPlateImg,
+  },
+  {
+    id: 13,
+    name: "Hot Roll",
+    description:
+      "Bandeja com 10 unidades de hot roll crocante e saboroso.",
+    price: 26.9,
+    size: "10 un.",
+    image: sushiPlateImg,
+  },
+  {
+    id: 14,
+    name: "Hot Filadélfia",
+    description:
+      "Bandeja com 10 unidades de hot filadélfia cremoso.",
+    price: 33.9,
+    size: "10 un.",
+    image: sushiPlateImg,
   },
 ];
