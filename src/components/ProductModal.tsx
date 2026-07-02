@@ -19,6 +19,13 @@ const ingredientMap: Record<string, string[]> = {
   misto:     ["Macarrão Yakisoba", "Carne bovina", "Frango grelhado", "Brócolis", "Cenoura", "Repolho", "Molho especial da casa"],
   especial:  ["Macarrão Yakisoba", "Carne bovina", "Frango", "Camarão", "Brócolis", "Cebola", "Cenoura", "Repolho", "Molho especial da casa"],
   vegetariano: ["Macarrão Yakisoba", "Brócolis", "Cenoura", "Acelga", "Cebola", "Pimentão", "Repolho", "Molho shoyu especial"],
+  // Sushi / Hot items
+  temaky: ["Arroz japonês", "Alga nori", "Recheio (salmão/atum/seleção)", "Cebolinha", "Molho especial"],
+  "hot temaky": ["Arroz japonês", "Alga nori", "Recheio quente", "Cebolinha", "Molho especial"],
+  "hot roll": ["Arroz japonês", "Nori", "Recheio cremoso (cream cheese/salmão)", "Empanado e frito", "Molho tarê"],
+  hotroll: ["Arroz japonês", "Nori", "Recheio cremoso (cream cheese/salmão)", "Empanado e frito", "Molho tarê"],
+  filadelfia: ["Arroz japonês", "Nori", "Cream cheese", "Salmão", "Cebolinha"],
+  filadélfia: ["Arroz japonês", "Nori", "Cream cheese", "Salmão", "Cebolinha"],
 };
 
 function getIngredients(name: string): string[] {
