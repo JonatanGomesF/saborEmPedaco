@@ -48,7 +48,14 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
       setQuantity(1);
       setObservation("");
       setSelectedExtras([]);
-      setActiveExtraCategory("Adicionais");
+      // choose sensible default extras category depending on product type
+      const lowerName = product?.name?.toLowerCase() ?? "";
+      const isSushi = /hot|temaky|filad/i.test(lowerName);
+      const allCategories = Array.from(new Set(extras.map((e) => e.category)));
+      const allowedCategories = isSushi
+        ? allCategories.filter((c) => c.toLowerCase() === "sushi")
+        : allCategories;
+      setActiveExtraCategory(allowedCategories[0] ?? "Adicionais");
       // Small delay so CSS transition plays
       requestAnimationFrame(() => setVisible(true));
     } else {
@@ -79,6 +86,9 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
   };
 
   const ingredients = getIngredients(product.name);
+
+  const lowerNameForRender = product.name.toLowerCase();
+  const isSushiItem = /hot|temaky|filad/i.test(lowerNameForRender);
 
   return (
     <div
@@ -180,24 +190,44 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
             </div>
 
             <div className="flex flex-wrap gap-2 mb-4">
-              {Array.from(new Set(extras.map((extra) => extra.category))).map((category) => (
-                <button
-                  key={category}
-                  onClick={() => setActiveExtraCategory(category)}
-                  className={`px-3 py-2 rounded-full text-[12px] font-semibold transition-all ${
-                    activeExtraCategory === category
-                      ? "bg-[#c0261a] text-white"
-                      : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                  }`}
-                >
-                  {category}
-                </button>
-              ))}
+              {(() => {
+                const lowerName = product?.name?.toLowerCase() ?? "";
+                const isSushi = /hot|temaky|filad/i.test(lowerName);
+                const categories = Array.from(new Set(extras.map((extra) => extra.category)));
+                const visibleCategories = isSushi
+                  ? categories.filter((c) => c.toLowerCase() === "sushi")
+                  : categories;
+
+                return visibleCategories.map((category) => (
+                  <button
+                    key={category}
+                    onClick={() => setActiveExtraCategory(category)}
+                    className={`px-3 py-2 rounded-full text-[12px] font-semibold transition-all ${
+                      activeExtraCategory === category
+                        ? "bg-[#c0261a] text-white"
+                        : "bg-gray-100 text-gray-600 hover:bg-gray-200"
+                    }`}
+                  >
+                    {category}
+                  </button>
+                ));
+              })()}
             </div>
 
             <div className="space-y-2">
               {extras
-                .filter((extra) => extra.category === activeExtraCategory)
+                .filter((extra) => {
+                  // only show extras that match the active category and are allowed for this product
+                  const lowerName = product?.name?.toLowerCase() ?? "";
+                  const isSushi = /hot|temaky|filad/i.test(lowerName);
+                  if (isSushi) {
+                    // For Hot items show only Tarê and Shoyu
+                    const n = extra.name.toLowerCase();
+                    return n.includes("tar") || n.includes("shoyu");
+                  }
+                  if (extra.category.toLowerCase() !== activeExtraCategory.toLowerCase()) return false;
+                  return extra.category === activeExtraCategory;
+                })
                 .map((extra) => {
                   const isChecked = selectedExtras.includes(extra.id);
                   return (

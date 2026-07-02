@@ -35,4 +35,35 @@ export const extras = [
     price: 4.0,
     category: "Refrigerantes",
   },
+  // Sushi / Hot specific extras
+  {
+    id: 7,
+    name: "Tarê",
+    price: 3.0,
+    category: "Sushi",
+  },
+  {
+    id: 8,
+    name: "Gergelim",
+    price: 0,
+    category: "Sushi",
+  },
+  {
+    id: 9,
+    name: "Cream Cheese Extra",
+    price: 4.5,
+    category: "Sushi",
+  },
+  {
+    id: 10,
+    name: "Porção de 5 un. extra",
+    price: 12.0,
+    category: "Sushi",
+  },
+  {
+    id: 11,
+    name: "Shoyu",
+    price: 2.0,
+    category: "Sushi",
+  },
 ];
