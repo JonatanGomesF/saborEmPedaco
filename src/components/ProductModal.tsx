@@ -12,12 +12,12 @@ type Props = {
 
 // Map ingredients per product type
 const ingredientMap: Record<string, string[]> = {
-  frango:    ["Macarrão Yakisoba", "Frango grelhado", "Brócolis", "Cenoura", "Acelga", "Repolho", "Molho especial da casa"],
-  carne:     ["Macarrão Yakisoba", "Carne bovina macia", "Brócolis", "Cebola", "Cenoura", "Repolho", "Molho especial da casa"],
-  camarão:   ["Macarrão Yakisoba", "Camarão selecionado", "Brócolis", "Cenoura", "Acelga", "Repolho", "Molho especial da casa"],
-  camarao:   ["Macarrão Yakisoba", "Camarão selecionado", "Brócolis", "Cenoura", "Acelga", "Repolho", "Molho especial da casa"],
-  misto:     ["Macarrão Yakisoba", "Carne bovina", "Frango grelhado", "Brócolis", "Cenoura", "Repolho", "Molho especial da casa"],
-  especial:  ["Macarrão Yakisoba", "Carne bovina", "Frango", "Camarão", "Brócolis", "Cebola", "Cenoura", "Repolho", "Molho especial da casa"],
+  frango: ["Macarrão Yakisoba", "Frango grelhado", "Brócolis", "Cenoura", "Acelga", "Repolho", "Molho especial da casa"],
+  carne: ["Macarrão Yakisoba", "Carne bovina macia", "Brócolis", "Cebola", "Cenoura", "Repolho", "Molho especial da casa"],
+  camarão: ["Macarrão Yakisoba", "Camarão selecionado", "Brócolis", "Cenoura", "Acelga", "Repolho", "Molho especial da casa"],
+  camarao: ["Macarrão Yakisoba", "Camarão selecionado", "Brócolis", "Cenoura", "Acelga", "Repolho", "Molho especial da casa"],
+  misto: ["Macarrão Yakisoba", "Carne bovina", "Frango grelhado", "Brócolis", "Cenoura", "Repolho", "Molho especial da casa"],
+  especial: ["Macarrão Yakisoba", "Carne bovina", "Frango", "Camarão", "Brócolis", "Cebola", "Cenoura", "Repolho", "Molho especial da casa"],
   vegetariano: ["Macarrão Yakisoba", "Brócolis", "Cenoura", "Acelga", "Cebola", "Pimentão", "Repolho", "Molho shoyu especial"],
   // Sushi / Hot items
   temaky: ["Arroz japonês", "Alga nori", "Recheio (salmão/atum/seleção)", "Cebolinha", "Molho especial"],
@@ -92,18 +92,16 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
 
   return (
     <div
-      className={`fixed inset-0 z-[999] flex items-end md:items-center justify-center p-0 md:p-6 transition-all duration-250 ${
-        visible ? "bg-black/70 backdrop-blur-sm" : "bg-black/0 pointer-events-none"
-      }`}
+      className={`fixed inset-0 z-[999] flex items-end md:items-center justify-center p-0 md:p-6 transition-all duration-250 ${visible ? "bg-black/70 backdrop-blur-sm" : "bg-black/0 pointer-events-none"
+        }`}
       onClick={handleClose}
     >
       <div
         onClick={(e) => e.stopPropagation()}
-        className={`bg-white w-full md:max-w-[520px] rounded-t-3xl md:rounded-2xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300 max-h-[92vh] md:max-h-[88vh] ${
-          visible
+        className={`bg-white w-full md:max-w-[520px] rounded-t-3xl md:rounded-2xl shadow-2xl overflow-hidden flex flex-col transition-all duration-300 max-h-[92vh] md:max-h-[88vh] ${visible
             ? "translate-y-0 opacity-100 md:scale-100"
             : "translate-y-8 opacity-0 md:scale-95"
-        }`}
+          }`}
       >
         {/* ── Image with gradient overlay ── */}
         <div className="relative h-52 md:h-60 flex-shrink-0 bg-gray-100 overflow-hidden">
@@ -202,11 +200,10 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
                   <button
                     key={category}
                     onClick={() => setActiveExtraCategory(category)}
-                    className={`px-3 py-2 rounded-full text-[12px] font-semibold transition-all ${
-                      activeExtraCategory === category
+                    className={`px-3 py-2 rounded-full text-[12px] font-semibold transition-all ${activeExtraCategory === category
                         ? "bg-[#c0261a] text-white"
                         : "bg-gray-100 text-gray-600 hover:bg-gray-200"
-                    }`}
+                      }`}
                   >
                     {category}
                   </button>
@@ -234,17 +231,15 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
                     <label
                       key={extra.id}
                       onClick={() => toggleExtra(extra.id)}
-                      className={`flex items-center justify-between rounded-xl p-3.5 cursor-pointer select-none transition-all duration-200 border ${
-                        isChecked
+                      className={`flex items-center justify-between rounded-xl p-3.5 cursor-pointer select-none transition-all duration-200 border ${isChecked
                           ? "border-[#c0261a] bg-red-50/60"
                           : "border-gray-100 bg-gray-50/50 hover:border-gray-200"
-                      }`}
+                        }`}
                     >
                       <div className="flex items-center gap-3">
                         <div
-                          className={`w-5 h-5 rounded-md flex items-center justify-center transition-all duration-200 shrink-0 ${
-                            isChecked ? "bg-[#c0261a]" : "border border-gray-300 bg-white"
-                          }`}
+                          className={`w-5 h-5 rounded-md flex items-center justify-center transition-all duration-200 shrink-0 ${isChecked ? "bg-[#c0261a]" : "border border-gray-300 bg-white"
+                            }`}
                         >
                           {isChecked && <Check size={12} className="text-white stroke-3" />}
                         </div>
