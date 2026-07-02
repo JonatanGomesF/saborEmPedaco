@@ -4,7 +4,6 @@ import camaraoImg from "../assets/yaki-camarao.png";
 import mistoImg from "../assets/yaki-misto.png";
 import especialImg from "../assets/yaki-especial.png";
 import yakiveg from "../assets/yaki-veg.png";
-import sushiPlateImg from "../assets/hero_sushi_plate.png";
 import hotTemaky from "../assets/temaky2.jpeg";
 import hotRoll from "../assets/hotroll.jpg";
 import hotFiladelfia from "../assets/filadel.jpg";
