@@ -87,8 +87,7 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
 
   const ingredients = getIngredients(product.name);
 
-  const lowerNameForRender = product.name.toLowerCase();
-  const isSushiItem = /hot|temaky|filad/i.test(lowerNameForRender);
+  
 
   return (
     <div
