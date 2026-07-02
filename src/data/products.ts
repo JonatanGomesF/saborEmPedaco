@@ -45,7 +45,7 @@ export const products: Product[] = [
       id: 14,
       name: "Filadélfia",
       description:
-        "Bandeja com 10 unidades de hot filadélfia cremoso.",
+        "Bandeja com 10 unidades de Sushi filadélfia cremoso.",
       price: 33.9,
       size: "10 un.",
       image: hotFiladelfia,
