@@ -14,10 +14,10 @@ export default function Hero() {
       style={{ minHeight: "100svh" }}
     >
       {/* ── Linha topo ── */}
-      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#c0261a] to-transparent z-20" />
+      <div className="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-[#facc15] to-transparent z-20" />
 
       {/* ── Fundo: gradiente radial vivo ── */}
-      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_65%,rgba(130,14,14,0.30)_0%,transparent_70%)]" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_70%_55%_at_50%_65%,rgba(250,204,21,0.30)_0%,transparent_70%)]" />
       {/* Vignette escura nas bordas */}
       <div className="absolute inset-0 bg-[radial-gradient(ellipse_100%_100%_at_50%_50%,transparent_50%,rgba(0,0,0,0.7)_100%)]" />
       {/* Textura de ruído sutil */}
@@ -63,7 +63,7 @@ export default function Hero() {
 
         {/* Badge topo */}
         <div className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.10] rounded-full px-4 py-1.5 mb-5 backdrop-blur-sm">
-          <span className="w-1.5 h-1.5 rounded-full bg-[#c0261a] animate-pulse" />
+          <span className="w-1.5 h-1.5 rounded-full bg-[#facc15] animate-pulse" />
           <span className="text-white/50 text-[10px] font-bold tracking-[0.35em] uppercase">
             Sabor Em Pedaço
           </span>
@@ -75,7 +75,7 @@ export default function Hero() {
           style={{ fontFamily: "'Playfair Display', Georgia, serif", fontStyle: "italic" }}
         >
           Sabor que você sente,{" "}
-          <span className="text-[#e03025] font-bold">como em casa!</span>
+          <span className="text-[#facc15] font-bold">como em casa!</span>
         </p>
 
         {/* Nome da marca */}
@@ -100,8 +100,8 @@ export default function Hero() {
               Sabor
             </span>
             <span
-              className="text-[#c0261a]"
-              style={{ textShadow: "0 4px 44px rgba(192,38,26,0.7)" }}
+              className="text-[#facc15]"
+              style={{ textShadow: "0 4px 44px rgba(250,204,21,0.7)" }}
             >
               Em Pedaço
             </span>
@@ -110,18 +110,18 @@ export default function Hero() {
 
         {/* Separador */}
         <div className="flex items-center gap-3 mb-6">
-          <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#c0261a]/50" />
-          <span className="text-[#c0261a]/80 text-[9px] font-black tracking-[0.5em] uppercase">
+          <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#facc15]/50" />
+          <span className="text-[#facc15]/80 text-[9px] font-black tracking-[0.5em] uppercase">
             Caldos Artesanais
           </span>
-          <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#c0261a]/50" />
+          <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#facc15]/50" />
         </div>
 
         {/* ── CTAs ── */}
         <div className="flex flex-col sm:flex-row items-center gap-3 mb-10">
           <button
             onClick={scrollToMenu}
-            className="group relative px-10 py-3.5 bg-[#c0261a] hover:bg-[#a31d12] text-white font-black text-[11px] tracking-[0.3em] uppercase rounded-full shadow-lg shadow-red-900/40 hover:shadow-red-900/70 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer overflow-hidden"
+            className="group relative px-10 py-3.5 bg-[#facc15] hover:bg-[#eab308] text-black font-black text-[11px] tracking-[0.3em] uppercase rounded-full shadow-lg shadow-black/30 hover:shadow-black/40 transition-all duration-300 hover:scale-105 active:scale-95 cursor-pointer overflow-hidden"
           >
             <span className="relative z-10">Ver Cardápio</span>
             <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/12 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
@@ -148,7 +148,7 @@ export default function Hero() {
             ] as const).map(({ Icon, label, sub }, i) => (
               <div key={i} className="flex flex-col items-center gap-2">
                 <div className="w-10 h-10 rounded-xl bg-white/[0.05] border border-white/[0.08] flex items-center justify-center">
-                  <Icon size={18} className="text-[#c0261a]" />
+                  <Icon size={18} className="text-[#facc15]" />
                 </div>
                 <p className="text-white text-[10px] font-black uppercase tracking-wide leading-none">{label}</p>
                 <p className="text-white/25 text-[9px] font-semibold">{sub}</p>
@@ -160,7 +160,7 @@ export default function Hero() {
       </div>
 
       {/* ── Linha vermelha rodapé ── */}
-      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#c0261a] via-[#e8321e] to-[#c0261a] z-20" />
+      <div className="absolute bottom-0 left-0 w-full h-[2px] bg-gradient-to-r from-[#facc15] via-[#fde047] to-[#facc15] z-20" />
     </section>
   );
 }

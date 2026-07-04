@@ -60,7 +60,7 @@ export default function AdminLayout({ children }: Props) {
             className={({ isActive }) =>
               `flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-semibold transition-all duration-200 group ${
                 isActive
-                  ? "bg-[#c0261a] text-white shadow-lg shadow-red-900/30"
+                  ? "bg-[#facc15] text-black shadow-lg shadow-black/20"
                   : "text-white/50 hover:text-white hover:bg-white/[0.07]"
               }`
             }
@@ -79,7 +79,7 @@ export default function AdminLayout({ children }: Props) {
       <div className="px-3 py-4 border-t border-white/[0.06]">
         <button
           onClick={logout}
-          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-white/40 hover:text-red-400 hover:bg-red-500/10 transition-all duration-200 cursor-pointer"
+          className="flex items-center gap-3 w-full px-3 py-2.5 rounded-xl text-sm font-semibold text-white/40 hover:text-[#facc15] hover:bg-[#facc15]/10 transition-all duration-200 cursor-pointer"
         >
           <LogOut size={17} />
           Sair
@@ -132,7 +132,7 @@ export default function AdminLayout({ children }: Props) {
           </button>
           <div className="flex items-center gap-1.5">
             <span className="text-white font-black text-sm">Sabor</span>
-            <span className="text-[#c0261a] font-black text-sm">Em Pedaço</span>
+            <span className="text-[#facc15] font-black text-sm">Em Pedaço</span>
           </div>
           <div className="w-5" />
         </header>

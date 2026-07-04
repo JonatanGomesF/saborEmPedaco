@@ -41,7 +41,7 @@ export default function Navbar({ onOpenCart }: NavbarProps) {
               Sabor
             </span>
             <span
-              className="text-[#c0261a] font-black"
+              className="text-[#facc15] font-black"
               style={{ fontSize: "1.25rem", fontFamily: "'Montserrat', sans-serif", letterSpacing: "-0.02em" }}
             >
               Em Pedaço
@@ -61,7 +61,7 @@ export default function Navbar({ onOpenCart }: NavbarProps) {
               href={link.href}
               className="text-[11px] font-bold uppercase tracking-[0.18em] text-white/50 hover:text-white relative py-2 transition-colors duration-300
                          after:absolute after:bottom-0 after:left-1/2 after:-translate-x-1/2 after:h-[1px] after:w-0
-                         hover:after:w-full after:bg-[#c0261a] after:transition-all after:duration-300"
+                         hover:after:w-full after:bg-[#facc15] after:transition-all after:duration-300"
             >
               {link.label}
             </a>
@@ -78,7 +78,7 @@ export default function Navbar({ onOpenCart }: NavbarProps) {
           >
             <ShoppingCart size={19} />
             {totalItems > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 bg-[#c0261a] text-white text-[9px] font-black w-[18px] h-[18px] rounded-full flex items-center justify-center border border-[#0a0a0a] shadow-md">
+              <span className="absolute -top-0.5 -right-0.5 bg-[#facc15] text-black text-[9px] font-black w-[18px] h-[18px] rounded-full flex items-center justify-center border border-[#0a0a0a] shadow-md">
                 {totalItems}
               </span>
             )}

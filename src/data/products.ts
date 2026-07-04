@@ -1,7 +1,7 @@
-import caldoMandioImg from "../assets/caldo1.jpeg";
-import caldoVerdeImg from "../assets/caldo2.jpeg";
-import caldoQuengaImg from "../assets/caldo3.jpeg";
-import caldoCostelaImg from "../assets/caldo4.jpeg";
+import caldoMandioImg from "../assets/mandioquinha.jpeg";
+import caldoVerdeImg from "../assets/verde.jpeg";
+import caldoQuengaImg from "../assets/quenga.jpeg";
+import caldoCostelaImg from "../assets/costela.jpeg";
 
 export type Product = {
   id: number;
@@ -18,9 +18,9 @@ export type Product = {
 export const products: Product[] = [
   {
     id: 1,
-    name: "Caldo Mandioquinha",
+    name: "Caldo Costela",
     description:
-      "Caldo cremoso de mandioquinha com toque de temperos especiais.",
+      "Caldo cremoso de costela com toque de temperos especiais.",
     price: 20.0,
     size: "350ml",
     image: caldoMandioImg,
@@ -36,7 +36,7 @@ export const products: Product[] = [
   },
   {
     id: 3,
-    name: "Caldo Verde",
+    name: "Caldo verde",
     description:
       "Caldo verde tradicional com couve, batata e calabresa suave.",
     price: 22.0,

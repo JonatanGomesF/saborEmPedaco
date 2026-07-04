@@ -35,7 +35,7 @@ export default function PromotionBanner() {
   const marqueeItems = [...promotions, ...promotions, ...promotions, ...promotions];
 
   return (
-    <div className="relative overflow-hidden py-8 bg-gradient-to-r from-orange-50/50 via-white to-orange-50/50 border-y border-orange-100/30">
+    <div className="relative overflow-hidden py-8 bg-gradient-to-r from-yellow-50/50 via-white to-yellow-50/50 border-y border-yellow-100/30">
       {/* Absolute fades on edges for infinite scroll feel */}
       <div className="absolute left-0 top-0 bottom-0 w-20 bg-gradient-to-r from-white to-transparent z-10 pointer-events-none" />
       <div className="absolute right-0 top-0 bottom-0 w-20 bg-gradient-to-l from-white to-transparent z-10 pointer-events-none" />
@@ -58,14 +58,14 @@ export default function PromotionBanner() {
                     alt={product.name}
                     className="w-full h-full object-cover"
                   />
-                  <div className="absolute top-1 left-1 bg-red-500 text-white font-black text-[9px] px-1.5 py-0.5 rounded-md flex items-center gap-0.5 shadow-sm">
+                  <div className="absolute top-1 left-1 bg-[#facc15] text-black font-black text-[9px] px-1.5 py-0.5 rounded-md flex items-center gap-0.5 shadow-sm">
                     <span>OFF</span>
                   </div>
                 </div>
               )}
 
               <div className="text-gray-900 flex-1">
-                <span className="inline-flex items-center gap-1 text-[10px] font-black text-red-500 uppercase tracking-wider bg-red-50 px-2 py-0.5 rounded-full mb-1">
+                <span className="inline-flex items-center gap-1 text-[10px] font-black text-[#b45309] uppercase tracking-wider bg-yellow-50 px-2 py-0.5 rounded-full mb-1">
                   🔥 PROMOÇÃO
                 </span>
 
@@ -78,8 +78,8 @@ export default function PromotionBanner() {
                 </p>
 
                 <div className="flex items-center gap-2 mt-1.5">
-                  <span className="text-xs font-semibold text-gray-400">Economize</span>
-                  <span className="font-black text-sm md:text-base text-green-600">
+                  <span className="text-xs font-semibold text-gray-500">Economize</span>
+                  <span className="font-black text-sm md:text-base text-[#b45309]">
                     R$ {promotion.discount.toFixed(2)}
                   </span>
                 </div>

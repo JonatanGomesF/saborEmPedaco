@@ -126,7 +126,7 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
               {product.size}
             </span>
             {product.promotionActive && (
-              <span className="bg-[#c0261a] text-white text-[10px] font-black px-3 py-1 rounded-full">
+              <span className="bg-[#facc15] text-black text-[10px] font-black px-3 py-1 rounded-full">
                 PROMOÇÃO
               </span>
             )}
@@ -262,7 +262,7 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
               value={observation}
               onChange={(e) => setObservation(e.target.value)}
               placeholder="Ex: sem cebola, pouco molho, bem temperado..."
-              className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3 text-[13px] outline-none focus:border-[#c0261a] focus:ring-2 focus:ring-[#c0261a]/10 placeholder-gray-400 transition-all duration-200 resize-none"
+              className="w-full border border-gray-200 bg-gray-50 rounded-xl p-3 text-[13px] outline-none focus:border-[#facc15] focus:ring-2 focus:ring-[#facc15]/10 placeholder-gray-400 transition-all duration-200 resize-none"
               rows={2}
             />
           </div>
@@ -284,7 +284,7 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
             </span>
             <button
               onClick={() => setQuantity(quantity + 1)}
-              className="w-8 h-8 rounded-lg bg-[#c0261a] hover:bg-[#9e1c12] flex items-center justify-center transition-all duration-200 text-white cursor-pointer active:scale-90"
+              className="w-8 h-8 rounded-lg bg-[#facc15] hover:bg-[#eab308] flex items-center justify-center transition-all duration-200 text-black cursor-pointer active:scale-90"
             >
               <Plus size={14} />
             </button>
@@ -307,7 +307,7 @@ export default function ProductModal({ open, product, onClose, onAddToCart }: Pr
               });
               handleClose();
             }}
-            className="flex-1 bg-[#c0261a] hover:bg-[#9e1c12] text-white py-3.5 px-5 rounded-xl font-black text-sm flex items-center justify-between shadow-lg shadow-red-900/20 hover:shadow-red-900/40 transition-all duration-300 hover:-translate-y-0.5 active:scale-98 cursor-pointer group"
+            className="flex-1 bg-[#facc15] hover:bg-[#eab308] text-black py-3.5 px-5 rounded-xl font-black text-sm flex items-center justify-between shadow-lg shadow-black/20 transition-all duration-300 hover:-translate-y-0.5 active:scale-98 cursor-pointer group"
           >
             <span>Adicionar ao carrinho</span>
             <span className="flex items-center gap-1.5">

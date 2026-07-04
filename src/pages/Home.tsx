@@ -11,11 +11,11 @@ import { products, type Product } from "../data/products";
 import { Phone, Clock, MapPin } from "lucide-react";
 
 // Local Caldo Assets for the About Us Row
-import caldo1Img from "../assets/caldo1.jpeg";
-import caldo2Img from "../assets/caldo2.jpeg";
-import caldo3Img from "../assets/caldo3.jpeg";
-import caldo4Img from "../assets/caldo4.jpeg";
-import heroBg from "../assets/caldo4.jpeg";
+import costelaImg from "../assets/costela.jpeg";
+import mandioquinhaImg from "../assets/mandioquinha.jpeg";
+import quengaImg from "../assets/quenga.jpeg";
+import verdeImg from "../assets/verde.jpeg";
+import heroBg from "../assets/costela.jpeg";
 
 export default function Home() {
   const { addToCart } = useCart();
@@ -93,7 +93,7 @@ export default function Home() {
               <p className="text-[11px] text-gray-400 mt-1">Preparado pelo nosso Chef na chapa,<br/>é algo que você precisa experimentar.</p>
             </div>
             
-            <div className="w-12 h-12 bg-[#ea580c] rounded-2xl flex items-center justify-center text-white shadow-lg shadow-orange-600/20 flex-shrink-0">
+            <div className="w-12 h-12 bg-[#facc15] rounded-2xl flex items-center justify-center text-black shadow-lg shadow-black/15 flex-shrink-0">
               <MapPin size={22} className="stroke-[2.5]" />
             </div>
 
@@ -105,7 +105,7 @@ export default function Home() {
 
           {/* Row de 5 fotos circulares dos caldos */}
           <div className="flex flex-wrap justify-center items-center gap-5 mt-10 select-none pointer-events-none max-w-4xl mx-auto">
-            {[caldo1Img, caldo2Img, caldo3Img, caldo4Img].map((img, i) => (
+            {[costelaImg, mandioquinhaImg, quengaImg, verdeImg].map((img, i) => (
               <div key={i} className="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden hover:scale-108 transition-transform duration-300 shadow-lg border border-gray-100/50 bg-gray-50">
                 <img src={img} alt="Caldo Sabor Em Pedaço" className="w-full h-full object-cover" />
               </div>
@@ -120,7 +120,7 @@ export default function Home() {
         className="max-w-6xl mx-auto px-6 py-20"
       >
         <div className="text-center mb-14 space-y-2">
-          <span className="text-[10px] font-black text-[#ea580c] tracking-[0.25em] uppercase bg-orange-50 border border-orange-100/30 px-3 py-1 rounded-full">
+          <span className="text-[10px] font-black text-[#a16207] tracking-[0.25em] uppercase bg-yellow-50 border border-yellow-100/30 px-3 py-1 rounded-full">
             Cardápio
           </span>
 
@@ -182,7 +182,7 @@ export default function Home() {
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 space-y-6">
           <h2 className="text-xl md:text-3xl font-extrabold tracking-[0.2em] text-white leading-relaxed uppercase">
-            O MELHOR CALDO DA CIDADE. <span className="text-[#ea580c]">GARANTIDO!</span>
+            O MELHOR CALDO DA CIDADE. <span className="text-[#facc15]">GARANTIDO!</span>
           </h2>
           
           <p className="text-[#808080] text-xs font-semibold tracking-wider max-w-2xl mx-auto italic leading-relaxed">
@@ -192,7 +192,7 @@ export default function Home() {
           <div className="pt-4">
             <button 
               onClick={scrollToMenu}
-              className="px-8 py-3.5 border border-white hover:border-[#ea580c] hover:bg-[#ea580c] hover:text-white transition-all duration-300 text-xs tracking-[0.2em] font-bold text-white uppercase cursor-pointer"
+              className="px-8 py-3.5 border border-white hover:border-[#facc15] hover:bg-[#facc15] hover:text-black transition-all duration-300 text-xs tracking-[0.2em] font-bold text-white uppercase cursor-pointer"
             >
               VER NOSSO CARDÁPIO
             </button>
@@ -254,7 +254,7 @@ export default function Home() {
             </div>
 
             <div className="space-y-1">
-              <label className="text-[10px] font-bold text-red-200 tracking-wider uppercase">Mensagem</label>
+              <label className="text-[10px] font-bold text-[#facc15] tracking-wider uppercase">Mensagem</label>
               <textarea
                 value={message}
                 onChange={(e) => setMessage(e.target.value)}
