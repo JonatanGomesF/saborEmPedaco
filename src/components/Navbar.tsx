@@ -7,10 +7,20 @@ type NavbarProps = {
   onOpenCart: () => void;
 };
 
+interface BeforeInstallPromptEvent extends Event {
+  prompt: () => Promise<void>;
+  userChoice: Promise<{
+    outcome: "accepted" | "dismissed";
+    platform: string;
+  }>;
+}
+
 export default function Navbar({ onOpenCart }: NavbarProps) {
   const [open, setOpen] = useState(false);
   const { totalItems } = useCart();
   const [animateCart, setAnimateCart] = useState(false);
+  const [installPrompt, setInstallPrompt] = useState<BeforeInstallPromptEvent | null>(null);
+  const [showInstallButton, setShowInstallButton] = useState(false);
 
   useEffect(() => {
     if (totalItems === 0) return;
@@ -18,6 +28,37 @@ export default function Navbar({ onOpenCart }: NavbarProps) {
     const timer = setTimeout(() => setAnimateCart(false), 600);
     return () => clearTimeout(timer);
   }, [totalItems]);
+
+  useEffect(() => {
+    const handleBeforeInstallPrompt = (event: Event) => {
+      event.preventDefault();
+      setInstallPrompt(event as BeforeInstallPromptEvent);
+      setShowInstallButton(true);
+    };
+
+    const handleAppInstalled = () => {
+      setInstallPrompt(null);
+      setShowInstallButton(false);
+    };
+
+    window.addEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+    window.addEventListener("appinstalled", handleAppInstalled);
+
+    return () => {
+      window.removeEventListener("beforeinstallprompt", handleBeforeInstallPrompt);
+      window.removeEventListener("appinstalled", handleAppInstalled);
+    };
+  }, []);
+
+  const handleInstallClick = async () => {
+    if (!installPrompt) return;
+    installPrompt.prompt();
+    const choice = await installPrompt.userChoice;
+    setShowInstallButton(false);
+    if (choice.outcome === "accepted") {
+      console.log("PWA installed");
+    }
+  };
 
   return (
     <header className="sticky top-0 z-50 bg-[#0a0a0a] border-b border-white/[0.06] shadow-xl text-white font-sans-montserrat">
@@ -68,8 +109,18 @@ export default function Navbar({ onOpenCart }: NavbarProps) {
           ))}
         </nav>
 
-        {/* ── Cart + mobile toggle ── */}
+        {/* ── Cart + install CTA + mobile toggle ── */}
         <div className="flex items-center gap-3">
+          {showInstallButton && (
+            <button
+              type="button"
+              onClick={handleInstallClick}
+              className="hidden md:inline-flex items-center justify-center rounded-full bg-[#facc15] px-4 py-2 text-[11px] font-black uppercase tracking-[0.18em] text-black shadow-[0_12px_40px_rgba(250,204,21,0.22)] transition-all duration-300 hover:bg-[#eab308]"
+            >
+              Instalar aplicativo da loja
+            </button>
+          )}
+
           <button
             type="button"
             id="cart-button-desktop"
