@@ -80,7 +80,7 @@ export default function AdminImpressora() {
     appendLog("Enviando comando de impressão de teste...");
 
     try {
-      await printBluetoothText("TESTE DE IMPRESSÃO YAKINHOME\n\nObrigado pela conexão!\n\n");
+      await printBluetoothText("TESTE DE IMPRESSÃO SABOR EM PEDAÇO\n\nObrigado pela conexão!\n\n");
       setPrinterStatus("Impressão concluída");
       appendLog("Teste de impressão concluído com sucesso.");
     } catch (error) {

@@ -3,7 +3,7 @@ import AdminLayout from "../components/AdminLayout";
 import { getDefaultDeliverySettings, type DeliveryRule, type DeliverySettings } from "../data/deliverySettings";
 import { MapPin, Save, Plus, Trash2 } from "lucide-react";
 
-const STORAGE_KEY = "yakinhome_delivery_settings";
+const STORAGE_KEY = "saborEmpedaco_delivery_settings";
 
 export default function AdminLocalidade() {
   const [settings, setSettings] = useState<DeliverySettings>(getDefaultDeliverySettings);

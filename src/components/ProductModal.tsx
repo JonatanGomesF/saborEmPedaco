@@ -12,13 +12,13 @@ type Props = {
 
 // Map ingredients per product type
 const ingredientMap: Record<string, string[]> = {
-  frango: ["Macarrão Yakisoba", "Frango grelhado", "Brócolis", "Cenoura", "Acelga", "Repolho", "Molho especial da casa"],
-  carne: ["Macarrão Yakisoba", "Carne bovina macia", "Brócolis", "Cebola", "Cenoura", "Repolho", "Molho especial da casa"],
-  camarão: ["Macarrão Yakisoba", "Camarão selecionado", "Brócolis", "Cenoura", "Acelga", "Repolho", "Molho especial da casa"],
-  camarao: ["Macarrão Yakisoba", "Camarão selecionado", "Brócolis", "Cenoura", "Acelga", "Repolho", "Molho especial da casa"],
-  misto: ["Macarrão Yakisoba", "Carne bovina", "Frango grelhado", "Brócolis", "Cenoura", "Repolho", "Molho especial da casa"],
-  especial: ["Macarrão Yakisoba", "Carne bovina", "Frango", "Camarão", "Brócolis", "Cebola", "Cenoura", "Repolho", "Molho especial da casa"],
-  vegetariano: ["Macarrão Yakisoba", "Brócolis", "Cenoura", "Acelga", "Cebola", "Pimentão", "Repolho", "Molho shoyu especial"],
+  frango: ["Caldo caseiro", "Frango grelhado", "Cenoura", "Batata", "Tempero especial da casa"],
+  carne: ["Caldo caseiro", "Carne bovina macia", "Cebola", "Cenoura", "Batata", "Tempero especial da casa"],
+  camarão: ["Caldo caseiro", "Camarão selecionado", "Cenoura", "Batata", "Tempero especial da casa"],
+  camarao: ["Caldo caseiro", "Camarão selecionado", "Cenoura", "Batata", "Tempero especial da casa"],
+  misto: ["Caldo caseiro", "Carne bovina", "Frango grelhado", "Camarão", "Cenoura", "Batata", "Tempero especial da casa"],
+  especial: ["Caldo caseiro", "Carne bovina", "Frango", "Camarão", "Cebola", "Cenoura", "Batata", "Tempero especial da casa"],
+  vegetariano: ["Caldo caseiro", "Brócolis", "Cenoura", "Batata", "Pimentão", "Tempero shoyu especial"],
   // Sushi / Hot items
   temaky: ["Arroz japonês", "Alga nori", "Recheio (salmão/atum/seleção)", "Cebolinha", "Molho especial"],
   "hot temaky": ["Arroz japonês", "Alga nori", "Recheio quente", "Cebolinha", "Molho especial"],
@@ -33,7 +33,7 @@ function getIngredients(name: string): string[] {
   for (const key of Object.keys(ingredientMap)) {
     if (lower.includes(key)) return ingredientMap[key];
   }
-  return ["Macarrão Yakisoba", "Ingredientes frescos", "Molho especial da casa"];
+  return ["Caldo caseiro", "Ingredientes frescos", "Molho especial da casa"];
 }
 
 export default function ProductModal({ open, product, onClose, onAddToCart }: Props) {

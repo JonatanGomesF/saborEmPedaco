@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { Menu, X, ShoppingCart } from "lucide-react";
 import { useCart } from "../context/CartContext";
+import logoImg from "../assets/logo.jpeg";
 
 type NavbarProps = {
   onOpenCart: () => void;
@@ -25,33 +26,25 @@ export default function Navbar({ onOpenCart }: NavbarProps) {
         {/* ── Logo: igual ao Hero ── */}
         <a
           href="/"
-          className="flex items-center gap-2 transition-opacity duration-300 hover:opacity-85 active:scale-95"
+          className="flex items-center gap-3 transition-opacity duration-300 hover:opacity-85 active:scale-95"
         >
-          {/* Mini casa SVG */}
-          <svg width="22" height="20" viewBox="0 0 72 64" fill="none" xmlns="http://www.w3.org/2000/svg">
-            <path d="M28 22 Q26 15 28 8 Q30 1 28 0" stroke="#e8c87a" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.9"/>
-            <path d="M36 24 Q34 16 36 8 Q38 0 36 0" stroke="#e8c87a" strokeWidth="3.5" strokeLinecap="round" fill="none"/>
-            <path d="M44 22 Q42 15 44 8 Q46 1 44 0" stroke="#e8c87a" strokeWidth="3" strokeLinecap="round" fill="none" opacity="0.9"/>
-            <path d="M6 42 L36 20 L66 42" stroke="#c0261a" strokeWidth="5" strokeLinejoin="round" fill="none" strokeLinecap="round"/>
-            <rect x="15" y="40" width="42" height="24" rx="2" fill="none" stroke="#c0261a" strokeWidth="3"/>
-            <rect x="27" y="46" width="18" height="13" rx="1.5" fill="none" stroke="#e8c87a" strokeWidth="2.5"/>
-            <line x1="36" y1="46" x2="36" y2="59" stroke="#e8c87a" strokeWidth="2"/>
-            <line x1="27" y1="52" x2="45" y2="52" stroke="#e8c87a" strokeWidth="2"/>
-          </svg>
-
-          {/* Nome — mesmo estilo do Hero */}
+          <img
+            src={logoImg}
+            alt="Sabor Em Pedaço"
+            className="w-10 h-10 rounded-2xl object-cover border border-white/10 shadow-sm"
+          />
           <span className="flex items-baseline leading-none">
             <span
               className="text-white font-black"
               style={{ fontSize: "1.25rem", fontFamily: "'Montserrat', sans-serif", letterSpacing: "-0.02em" }}
             >
-              Yakin
+              Sabor
             </span>
             <span
               className="text-[#c0261a] font-black"
               style={{ fontSize: "1.25rem", fontFamily: "'Montserrat', sans-serif", letterSpacing: "-0.02em" }}
             >
-              Home
+              Em Pedaço
             </span>
           </span>
         </a>

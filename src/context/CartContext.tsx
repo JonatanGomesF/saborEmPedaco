@@ -61,7 +61,7 @@ export function CartProvider({ children }: ProviderProps) {
 
   // Carrega do LocalStorage
   useEffect(() => {
-    const savedCart = localStorage.getItem("yakinhome-cart");
+    const savedCart = localStorage.getItem("saborEmpedaco-cart");
 
     if (savedCart) {
       setCartItems(JSON.parse(savedCart));
@@ -71,7 +71,7 @@ export function CartProvider({ children }: ProviderProps) {
   // Salva no LocalStorage
   useEffect(() => {
     localStorage.setItem(
-      "yakinhome-cart",
+      "saborEmpedaco-cart",
       JSON.stringify(cartItems)
     );
   }, [cartItems]);

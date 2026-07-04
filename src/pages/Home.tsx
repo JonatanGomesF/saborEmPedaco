@@ -10,13 +10,12 @@ import { getProductAvailability } from "../lib/productAvailability";
 import { products, type Product } from "../data/products";
 import { Phone, Clock, MapPin } from "lucide-react";
 
-// Local Yakisoba Assets for the About Us Row
-import frangoImg from "../assets/yaki-frango.png";
-import carneImg from "../assets/yaki-carne.png";
-import camaraoImg from "../assets/yaki-camarao.png";
-import mistoImg from "../assets/yaki-misto.png";
-import vegImg from "../assets/yaki-veg.png";
-import heroBg from "../assets/hero.png";
+// Local Caldo Assets for the About Us Row
+import caldo1Img from "../assets/caldo1.jpeg";
+import caldo2Img from "../assets/caldo2.jpeg";
+import caldo3Img from "../assets/caldo3.jpeg";
+import caldo4Img from "../assets/caldo4.jpeg";
+import heroBg from "../assets/caldo4.jpeg";
 
 export default function Home() {
   const { addToCart } = useCart();
@@ -54,14 +53,12 @@ export default function Home() {
       return;
     }
     // Contato via WhatsApp
-    const msg = `*Mensagem de Contato - YakinHome*\n\n*Nome:* ${name}\n*E-mail:* ${email}\n*Mensagem:* ${message}`;
-    window.open(`https://wa.me/5511963872966?text=${encodeURIComponent(msg)}`, "_blank");
+    const msg = `*Mensagem de Contato - Sabor Em Pedaço*\n\n*Nome:* ${name}\n*E-mail:* ${email}\n*Mensagem:* ${message}`;
+    window.open(`https://wa.me/+5511945977444?text=${encodeURIComponent(msg)}`, "_blank");
     setName("");
     setEmail("");
     setMessage("");
   };
-
-  const yakiRow = [frangoImg, carneImg, camaraoImg, mistoImg, vegImg];
 
   return (
     <div className="min-h-screen bg-gray-50/30 text-gray-800 font-sans-montserrat">
@@ -86,7 +83,7 @@ export default function Home() {
           <div className="w-12 h-[2px] bg-[#b52626] mx-auto mt-2" />
 
           <p className="mt-4 text-xs md:text-sm text-gray-500 italic max-w-2xl mx-auto leading-relaxed">
-            O YakinHome é especializado em yakisoba artesanal feito na chapa, com ingredientes frescos e selecionados. Nossa receita especial, aperfeiçoada ao longo dos anos, garante um sabor único e autêntico que você não encontra em outro lugar. Venha nos visitar e experimente o melhor yakisoba da região!
+            A Sabor Em Pedaço é especializada em caldos caseiros e cremosos, feitos com ingredientes frescos e temperos selecionados. Nossos caldos garantem um sabor único e acolhedor que você vai querer repetir sempre. Peça agora e sinta o conforto de um caldo quentinho em casa!
           </p>
 
           {/* Badges de destaque */}
@@ -102,15 +99,15 @@ export default function Home() {
 
             <div className="text-center sm:text-left flex-1">
               <h4 className="text-xs font-black text-[#b52626] tracking-widest uppercase">NOSSO ORGULHO</h4>
-              <p className="text-[11px] text-gray-400 mt-1">Servimos o yakisoba mais fresco, saboroso<br/>e irresistível da cidade.</p>
+              <p className="text-[11px] text-gray-400 mt-1">Servimos caldos frescos e saborosos, preparados com carinho<br/>para você se aquecer a cada colherada.</p>
             </div>
           </div>
 
-          {/* Row de 5 fotos circulares dos yakisobas */}
+          {/* Row de 5 fotos circulares dos caldos */}
           <div className="flex flex-wrap justify-center items-center gap-5 mt-10 select-none pointer-events-none max-w-4xl mx-auto">
-            {yakiRow.map((img, i) => (
+            {[caldo1Img, caldo2Img, caldo3Img, caldo4Img].map((img, i) => (
               <div key={i} className="w-20 h-20 md:w-28 md:h-28 rounded-full overflow-hidden hover:scale-108 transition-transform duration-300 shadow-lg border border-gray-100/50 bg-gray-50">
-                <img src={img} alt="Yakisoba YakinHome" className="w-full h-full object-cover" />
+                <img src={img} alt="Caldo Sabor Em Pedaço" className="w-full h-full object-cover" />
               </div>
             ))}
           </div>
@@ -128,11 +125,11 @@ export default function Home() {
           </span>
 
           <h2 className="text-3xl md:text-4xl font-extrabold text-gray-800 tracking-tight">
-            Escolha seu Yakisoba
+            Escolha seu Caldo
           </h2>
 
           <p className="text-gray-400 text-xs md:text-sm max-w-md mx-auto leading-relaxed">
-            Nossos pratos acompanham ingredientes selecionados na chapa e o molho especial clássico da casa.
+            Caldos preparados com ingredientes frescos e temperos caseiros, servidos quentinhos para sua refeição.
           </p>
         </div>
 
@@ -173,23 +170,23 @@ export default function Home() {
         onAddToCart={addToCart}
       />
 
-      {/* Seção: "MELHOR YAKISOBA DA CIDADE" (Fundo Escuro com Parallax) */}
+      {/* Seção: "MELHOR CALDO DA CIDADE" (Fundo Escuro com Parallax) */}
       <section className="relative overflow-hidden bg-black text-center min-h-[40vh] flex items-center">
         {/* Background image com overlay escuro */}
         <img 
           src={heroBg} 
-          alt="Yakisoba Background" 
+          alt="Caldo Background" 
           className="absolute inset-0 w-full h-full object-cover opacity-30 select-none pointer-events-none scale-105"
         />
         <div className="absolute inset-0 bg-[#070707]/75 backdrop-blur-xs" />
 
         <div className="relative z-10 max-w-4xl mx-auto px-6 py-20 space-y-6">
           <h2 className="text-xl md:text-3xl font-extrabold tracking-[0.2em] text-white leading-relaxed uppercase">
-            O MELHOR YAKISOBA DA CIDADE. <span className="text-[#ea580c]">GARANTIDO!</span>
+            O MELHOR CALDO DA CIDADE. <span className="text-[#ea580c]">GARANTIDO!</span>
           </h2>
           
           <p className="text-[#808080] text-xs font-semibold tracking-wider max-w-2xl mx-auto italic leading-relaxed">
-            Nosso cardápio conta com uma grande variedade de yakisobas artesanais preparados na chapa, com ingredientes selecionados e o molho especial da casa. Venha experimentar e descubra por que somos referência em yakisoba na região.
+            Nosso cardápio conta com caldos artesanais preparados com ingredientes frescos e temperos caseiros. Venha experimentar e descubra por que somos referência em caldos na região.
           </p>
 
           <div className="pt-4">
@@ -214,7 +211,7 @@ export default function Home() {
           <div className="space-y-6">
             <div>
               <h2 className="text-3xl font-extrabold uppercase tracking-[0.1em]">CONTATO</h2>
-              <p className="text-xs text-red-200/60 italic font-semibold mt-1.5">Yakisoba Artesanal • YakinHome</p>
+              <p className="text-xs text-red-200/60 italic font-semibold mt-1.5">Caldos Artesanais • Sabor Em Pedaço</p>
             </div>
 
             <div className="space-y-4 text-xs font-semibold tracking-wider text-red-100/80">
@@ -281,18 +278,18 @@ export default function Home() {
         <div className="max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center justify-between gap-4 text-center md:text-left">
           
           <div className="flex items-center gap-1 font-bold text-xs tracking-[0.2em] text-white">
-            <span>YAKIN</span>
+            <span>SABOR</span>
             <span className="flex items-center text-white">
-              H
+              EM
               <span className="relative inline-flex items-center justify-center w-4.5 h-4.5 bg-[#ea580c] rounded-full mx-0.5">
                 <span className="text-[8px] text-white">🔥</span>
               </span>
-              ME
+              PEDAÇO
             </span>
           </div>
 
           <p className="text-[9px] font-bold tracking-widest uppercase text-gray-600">
-            © {new Date().getFullYear()} YAKINHOME. TODOS OS DIREITOS RESERVADOS.
+            © {new Date().getFullYear()} SABOR EM PEDAÇO. TODOS OS DIREITOS RESERVADOS.
           </p>
 
           {/* Scroll to Top */}

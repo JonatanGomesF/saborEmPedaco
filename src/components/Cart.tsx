@@ -67,18 +67,18 @@ export default function Cart({
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {items.length === 0 ? (
           <div className="h-full flex flex-col items-center justify-center text-center p-6 space-y-4">
-            <span className="text-5xl animate-bounce">🍜</span>
+            <span className="text-5xl animate-bounce">�</span>
             <div className="space-y-1.5">
               <h3 className="font-extrabold text-gray-700">Seu carrinho está vazio</h3>
               <p className="text-xs text-gray-400 max-w-[240px]">
-                Adicione alguns Yakisobas deliciosos do nosso cardápio para começar.
+                Adicione alguns caldos deliciosos do nosso cardápio para começar.
               </p>
             </div>
             <button
               onClick={onClose}
               className="px-6 py-2.5 bg-red-50 text-[#b52626] rounded-xl text-xs font-black hover:bg-red-100 transition-colors duration-300"
             >
-              Adicionar Yakisoba
+              Adicionar Caldos
             </button>
           </div>
         ) : (

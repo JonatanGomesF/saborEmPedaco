@@ -96,7 +96,7 @@ const speakAlert = () => {
   try {
     if ("speechSynthesis" in window) {
       window.speechSynthesis.cancel();
-      const utterance = new SpeechSynthesisUtterance("Novo pedido YakinHome");
+      const utterance = new SpeechSynthesisUtterance("Novo pedido Sabor Em Pedaço");
       utterance.lang = "pt-BR";
       utterance.rate = 1.0;
       utterance.pitch = 1.1;

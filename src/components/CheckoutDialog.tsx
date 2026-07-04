@@ -31,7 +31,7 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
 
   useEffect(() => {
     try {
-      const raw = localStorage.getItem("yakinhome_delivery_settings");
+      const raw = localStorage.getItem("saborEmpedaco_delivery_settings");
       if (raw) {
         const parsed = JSON.parse(raw) as DeliverySettings;
         setSettings(parsed);
@@ -184,7 +184,7 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
       console.error("Erro ao salvar pedido:", error);
     }
 
-    let msg = `*NOVO PEDIDO - YAKINHOME*\n\n`;
+    let msg = `*NOVO PEDIDO - SABOR EM PEDAÇO*\n\n`;
 
     msg += `*Nome:* ${name}\n`;
     msg += `*WhatsApp:* ${phone}\n`;
@@ -235,7 +235,7 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
       msg += ` (troco para R$ ${troco})`;
     }
 
-    const url = `https://wa.me/5511963872966?text=${encodeURIComponent(msg)}`;
+const url = `https://wa.me/+5511945977444?text=${encodeURIComponent(msg)}`;
 
     setIsSending(false);
     setIsSuccess(true);

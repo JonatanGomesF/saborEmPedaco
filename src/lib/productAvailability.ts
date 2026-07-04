@@ -1,4 +1,4 @@
-export const PRODUCT_AVAILABILITY_KEY = "yakinhome_product_availability";
+export const PRODUCT_AVAILABILITY_KEY = "saborEmpedaco_product_availability";
 
 export function getProductAvailability(): Record<number, boolean> {
   if (typeof window === "undefined") return {};

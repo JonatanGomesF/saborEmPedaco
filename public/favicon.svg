@@ -5,12 +5,12 @@
       <stop offset="0%" stop-color="#1a0000" />
       <stop offset="100%" stop-color="#3d0300" />
     </linearGradient>
-    <!-- Gradiente para o bowl de Yakisoba -->
+    <!-- Gradiente para o bowl de Caldo -->
     <linearGradient id="red-grad" x1="0%" y1="0%" x2="0%" y2="100%">
       <stop offset="0%" stop-color="#e53e3e" />
       <stop offset="100%" stop-color="#9b2c2c" />
     </linearGradient>
-    <!-- Gradiente para os noodles/detalhes de ouro -->
+    <!-- Gradiente para os detalhes de ouro -->
     <linearGradient id="gold-grad" x1="0%" y1="0%" x2="100%" y2="100%">
       <stop offset="0%" stop-color="#f6e05e" />
       <stop offset="100%" stop-color="#dd6b20" />
@@ -20,15 +20,15 @@
   <!-- Fundo Circular Premium -->
   <circle cx="256" cy="256" r="240" fill="url(#bg-grad)" stroke="#dd6b20" stroke-width="8" />
 
-  <!-- Tigela de Yakisoba (Bowl) -->
+  <!-- Tigela de Caldo (Bowl) -->
   <path d="M120 280h272c0 80-60 120-136 120s-136-40-136-120z" fill="url(#red-grad)" stroke="#ffffff" stroke-width="6" stroke-linejoin="round" />
   <!-- Base da tigela -->
   <path d="M210 400h92v16h-92z" fill="#ffffff" rx="4" />
 
-  <!-- Vapor saindo do Yakisoba (fumaça quente) -->
+  <!-- Vapor saindo do Caldo (fumaça quente) -->
   <path d="M200 170c-5-15 5-25 0-40M256 160c-5-20 5-30 0-50M312 170c-5-15 5-25 0-40" stroke="#ffffff" stroke-width="8" stroke-linecap="round" fill="none" opacity="0.3" />
 
-  <!-- Macarrão / Noodles (Yakisoba) saindo da tigela -->
+  <!-- Macarrão / Noodles saindo da tigela -->
   <path d="M136 280c20-20 40-10 60-20s30-25 60-15s45-20 70-15s30 15 50 10s20-25 10-30" stroke="url(#gold-grad)" stroke-width="14" fill="none" stroke-linecap="round" />
   <path d="M150 290c25-15 35-5 55-25s40-10 65-15s35 15 60 5s25-25 15-35" stroke="url(#gold-grad)" stroke-width="12" fill="none" stroke-linecap="round" opacity="0.9" />
 

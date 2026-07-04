@@ -65,7 +65,7 @@ export default function Hero() {
         <div className="inline-flex items-center gap-2 bg-white/[0.05] border border-white/[0.10] rounded-full px-4 py-1.5 mb-5 backdrop-blur-sm">
           <span className="w-1.5 h-1.5 rounded-full bg-[#c0261a] animate-pulse" />
           <span className="text-white/50 text-[10px] font-bold tracking-[0.35em] uppercase">
-            Yakissobaria Artesanal
+            Sabor Em Pedaço
           </span>
         </div>
 
@@ -97,13 +97,13 @@ export default function Hero() {
             style={{ fontSize: "clamp(4.5rem, 13vw, 8rem)" }}
           >
             <span className="text-white" style={{ textShadow: "0 4px 40px rgba(0,0,0,0.95)" }}>
-              Yakin
+              Sabor
             </span>
             <span
               className="text-[#c0261a]"
               style={{ textShadow: "0 4px 44px rgba(192,38,26,0.7)" }}
             >
-              Home
+              Em Pedaço
             </span>
           </h1>
         </div>
@@ -112,7 +112,7 @@ export default function Hero() {
         <div className="flex items-center gap-3 mb-6">
           <div className="h-px w-16 bg-gradient-to-r from-transparent to-[#c0261a]/50" />
           <span className="text-[#c0261a]/80 text-[9px] font-black tracking-[0.5em] uppercase">
-            Yakissobaria
+            Caldos Artesanais
           </span>
           <div className="h-px w-16 bg-gradient-to-l from-transparent to-[#c0261a]/50" />
         </div>
@@ -128,7 +128,7 @@ export default function Hero() {
           </button>
 
           <a
-            href="https://wa.me/5511963872966"
+            href="https://wa.me/+5511945977444"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-10 py-3.5 border border-white/15 hover:border-white/40 text-white/60 hover:text-white font-bold text-[11px] tracking-[0.25em] uppercase rounded-full transition-all duration-300 hover:scale-105 backdrop-blur-sm cursor-pointer"

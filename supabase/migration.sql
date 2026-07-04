@@ -1,15 +1,38 @@
 -- ============================================================
--- YakinHome — Supabase SQL Migration
+-- Sabor Em Pedaço — Supabase SQL Migration
 -- Versão: 1.0.0  |  Data: 2026-06-26
+-- ============================================================
+-- INSTRUÇÃO: este arquivo é um script SQL para ser executado no
+-- painel do Supabase > SQL Editor.
+-- Se as tabelas já existem, ele ainda pode ser executado porque
+-- vários comandos usam IF NOT EXISTS e não quebram a execução.
 -- ============================================================
 
 -- ─────────────────────────────────────────────
--- 1. CUSTOMERS (já existe — adicionar colunas)
+-- 1. CUSTOMERS
 -- ─────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.customers (
+  id                BIGSERIAL PRIMARY KEY,
+  name              TEXT NOT NULL,
+  phone             TEXT UNIQUE NOT NULL,
+  street            TEXT DEFAULT '',
+  number            TEXT DEFAULT '',
+  district          TEXT DEFAULT '',
+  last_order_value  NUMERIC(10,2) DEFAULT 0,
+  total_spent       NUMERIC(10,2) DEFAULT 0,
+  orders_count      INTEGER DEFAULT 0,
+  created_at        TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at        TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
+CREATE INDEX IF NOT EXISTS idx_customers_phone ON public.customers(phone);
+
 ALTER TABLE public.customers
   ADD COLUMN IF NOT EXISTS total_spent    NUMERIC(10,2) DEFAULT 0,
   ADD COLUMN IF NOT EXISTS orders_count   INTEGER       DEFAULT 0,
-  ADD COLUMN IF NOT EXISTS updated_at     TIMESTAMPTZ   DEFAULT NOW();
+  ADD COLUMN IF NOT EXISTS updated_at     TIMESTAMPTZ   DEFAULT NOW(),
+  ADD COLUMN IF NOT EXISTS last_order_value NUMERIC(10,2) DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS created_at     TIMESTAMPTZ   DEFAULT NOW();
 
 -- Trigger para atualizar updated_at automaticamente
 CREATE OR REPLACE FUNCTION update_updated_at()
@@ -20,17 +43,42 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS customers_updated_at ON public.customers;
-CREATE TRIGGER customers_updated_at
-  BEFORE UPDATE ON public.customers
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_trigger
+    WHERE tgname = 'customers_updated_at'
+      AND tgrelid = 'public.customers'::regclass
+  ) THEN
+    CREATE TRIGGER customers_updated_at
+      BEFORE UPDATE ON public.customers
+      FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+  END IF;
+END $$;
 
 -- ─────────────────────────────────────────────
--- 2. PROMOTIONS (já existe — adicionar colunas)
+-- 2. PROMOTIONS
 -- ─────────────────────────────────────────────
+CREATE TABLE IF NOT EXISTS public.promotions (
+  id            BIGSERIAL PRIMARY KEY,
+  title         TEXT NOT NULL,
+  description   TEXT DEFAULT '',
+  discount      NUMERIC(10,2) NOT NULL DEFAULT 0,
+  active        BOOLEAN NOT NULL DEFAULT false,
+  product_id    INTEGER NOT NULL,
+  expires_at    TIMESTAMPTZ DEFAULT NULL,
+  created_at    TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 ALTER TABLE public.promotions
   ADD COLUMN IF NOT EXISTS expires_at  TIMESTAMPTZ DEFAULT NULL,
-  ADD COLUMN IF NOT EXISTS created_at  TIMESTAMPTZ DEFAULT NOW();
+  ADD COLUMN IF NOT EXISTS created_at  TIMESTAMPTZ DEFAULT NOW(),
+  ADD COLUMN IF NOT EXISTS active      BOOLEAN DEFAULT false,
+  ADD COLUMN IF NOT EXISTS product_id  INTEGER DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS discount    NUMERIC(10,2) DEFAULT 0,
+  ADD COLUMN IF NOT EXISTS title       TEXT DEFAULT '',
+  ADD COLUMN IF NOT EXISTS description TEXT DEFAULT '';
 
 -- ─────────────────────────────────────────────
 -- 3. ORDERS — nova tabela de pedidos
@@ -59,10 +107,19 @@ CREATE INDEX IF NOT EXISTS idx_orders_created_at  ON public.orders(created_at DE
 CREATE INDEX IF NOT EXISTS idx_orders_phone       ON public.orders(customer_phone);
 
 -- Trigger updated_at nos pedidos
-DROP TRIGGER IF EXISTS orders_updated_at ON public.orders;
-CREATE TRIGGER orders_updated_at
-  BEFORE UPDATE ON public.orders
-  FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_trigger
+    WHERE tgname = 'orders_updated_at'
+      AND tgrelid = 'public.orders'::regclass
+  ) THEN
+    CREATE TRIGGER orders_updated_at
+      BEFORE UPDATE ON public.orders
+      FOR EACH ROW EXECUTE FUNCTION update_updated_at();
+  END IF;
+END $$;
 
 -- ─────────────────────────────────────────────
 -- 4. ORDER_STATUS_HISTORY — histórico de status
@@ -89,10 +146,19 @@ BEGIN
 END;
 $$ LANGUAGE plpgsql;
 
-DROP TRIGGER IF EXISTS orders_status_history ON public.orders;
-CREATE TRIGGER orders_status_history
-  AFTER UPDATE ON public.orders
-  FOR EACH ROW EXECUTE FUNCTION log_order_status_change();
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1
+    FROM pg_trigger
+    WHERE tgname = 'orders_status_history'
+      AND tgrelid = 'public.orders'::regclass
+  ) THEN
+    CREATE TRIGGER orders_status_history
+      AFTER UPDATE ON public.orders
+      FOR EACH ROW EXECUTE FUNCTION log_order_status_change();
+  END IF;
+END $$;
 
 -- ─────────────────────────────────────────────
 -- 5. RESTAURANT_SETTINGS — configurações globais
@@ -179,7 +245,7 @@ CREATE TABLE IF NOT EXISTS public.admins (
 
 -- Inserir email do admin padrão
 INSERT INTO public.admins (email)
-VALUES ('admin@yakinhome.com')
+VALUES ('admin@saborempedaco.com')
 ON CONFLICT (email) DO NOTHING;
 
 -- Habilita RLS na tabela admins
@@ -197,11 +263,18 @@ END;
 $$ LANGUAGE plpgsql SECURITY DEFINER;
 
 -- Políticas para a tabela admins
-DROP POLICY IF EXISTS admins_auth_all ON public.admins;
-CREATE POLICY admins_auth_all ON public.admins
-  FOR ALL
-  TO authenticated
-  USING (public.is_admin());
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'admins' AND policyname = 'admins_auth_all'
+  ) THEN
+    CREATE POLICY admins_auth_all ON public.admins
+      FOR ALL
+      TO authenticated
+      USING (public.is_admin());
+  END IF;
+END $$;
 
 -- ─────────────────────────────────────────────
 -- 9. ROW LEVEL SECURITY
@@ -213,55 +286,108 @@ ALTER TABLE public.order_status_history ENABLE ROW LEVEL SECURITY;
 ALTER TABLE public.restaurant_settings  ENABLE ROW LEVEL SECURITY;
 
 -- Política: apenas administradores leem/escrevem orders
-DROP POLICY IF EXISTS orders_auth_all ON public.orders;
-CREATE POLICY orders_auth_all ON public.orders
-  FOR ALL
-  TO authenticated
-  USING (public.is_admin())
-  WITH CHECK (public.is_admin());
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'orders' AND policyname = 'orders_auth_all'
+  ) THEN
+    CREATE POLICY orders_auth_all ON public.orders
+      FOR ALL
+      TO authenticated
+      USING (public.is_admin())
+      WITH CHECK (public.is_admin());
+  END IF;
+END $$;
 
--- Política: público pode inserir pedido (checkout) mas não ler/editar
-DROP POLICY IF EXISTS orders_insert_anon ON public.orders;
-CREATE POLICY orders_insert_anon ON public.orders
-  FOR INSERT
-  TO anon
-  WITH CHECK (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'orders' AND policyname = 'orders_insert_anon'
+  ) THEN
+    CREATE POLICY orders_insert_anon ON public.orders
+      FOR INSERT
+      TO anon
+      WITH CHECK (true);
+  END IF;
+END $$;
 
--- Histórico: apenas admins
-DROP POLICY IF EXISTS osh_auth_all ON public.order_status_history;
-CREATE POLICY osh_auth_all ON public.order_status_history
-  FOR ALL
-  TO authenticated
-  USING (public.is_admin());
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'order_status_history' AND policyname = 'osh_auth_all'
+  ) THEN
+    CREATE POLICY osh_auth_all ON public.order_status_history
+      FOR ALL
+      TO authenticated
+      USING (public.is_admin());
+  END IF;
+END $$;
 
--- Settings: apenas admins
-DROP POLICY IF EXISTS settings_auth_all ON public.restaurant_settings;
-CREATE POLICY settings_auth_all ON public.restaurant_settings
-  FOR ALL
-  TO authenticated
-  USING (public.is_admin());
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'restaurant_settings' AND policyname = 'settings_auth_all'
+  ) THEN
+    CREATE POLICY settings_auth_all ON public.restaurant_settings
+      FOR ALL
+      TO authenticated
+      USING (public.is_admin());
+  END IF;
+END $$;
 
 -- Customers: anon pode inserir, apenas admins leem tudo
 ALTER TABLE public.customers ENABLE ROW LEVEL SECURITY;
 
-DROP POLICY IF EXISTS customers_insert_anon ON public.customers;
-CREATE POLICY customers_insert_anon ON public.customers
-  FOR INSERT TO anon WITH CHECK (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'customers' AND policyname = 'customers_insert_anon'
+  ) THEN
+    CREATE POLICY customers_insert_anon ON public.customers
+      FOR INSERT TO anon WITH CHECK (true);
+  END IF;
+END $$;
 
-DROP POLICY IF EXISTS customers_auth_all ON public.customers;
-CREATE POLICY customers_auth_all ON public.customers
-  FOR ALL TO authenticated USING (public.is_admin());
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'customers' AND policyname = 'customers_auth_all'
+  ) THEN
+    CREATE POLICY customers_auth_all ON public.customers
+      FOR ALL TO authenticated USING (public.is_admin());
+  END IF;
+END $$;
 
 -- Promotions: anon lê (cardápio), apenas admins escrevem
 ALTER TABLE public.promotions ENABLE ROW LEVEL SECURITY;
 
-DROP POLICY IF EXISTS promotions_read_anon ON public.promotions;
-CREATE POLICY promotions_read_anon ON public.promotions
-  FOR SELECT TO anon USING (true);
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'promotions' AND policyname = 'promotions_read_anon'
+  ) THEN
+    CREATE POLICY promotions_read_anon ON public.promotions
+      FOR SELECT TO anon USING (true);
+  END IF;
+END $$;
 
-DROP POLICY IF EXISTS promotions_auth_all ON public.promotions;
-CREATE POLICY promotions_auth_all ON public.promotions
-  FOR ALL TO authenticated USING (public.is_admin());
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_policies
+    WHERE schemaname = 'public' AND tablename = 'promotions' AND policyname = 'promotions_auth_all'
+  ) THEN
+    CREATE POLICY promotions_auth_all ON public.promotions
+      FOR ALL TO authenticated USING (public.is_admin());
+  END IF;
+END $$;
 
 -- ─────────────────────────────────────────────
 -- 10. REPLICAÇÃO REALTIME
