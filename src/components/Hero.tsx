@@ -128,7 +128,7 @@ export default function Hero() {
           </button>
 
           <a
-            href="https://wa.me/+5511945977444"
+            href="https://wa.me/+5511947270037"
             target="_blank"
             rel="noopener noreferrer"
             className="inline-flex items-center gap-2 px-10 py-3.5 border border-white/15 hover:border-white/40 text-white/60 hover:text-white font-bold text-[11px] tracking-[0.25em] uppercase rounded-full transition-all duration-300 hover:scale-105 backdrop-blur-sm cursor-pointer"

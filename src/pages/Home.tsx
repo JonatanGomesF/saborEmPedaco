@@ -54,7 +54,7 @@ export default function Home() {
     }
     // Contato via WhatsApp
     const msg = `*Mensagem de Contato - Sabor Em Pedaço*\n\n*Nome:* ${name}\n*E-mail:* ${email}\n*Mensagem:* ${message}`;
-    window.open(`https://wa.me/+5511945977444?text=${encodeURIComponent(msg)}`, "_blank");
+    window.open(`https://wa.me/+5511947270037?text=${encodeURIComponent(msg)}`, "_blank");
     setName("");
     setEmail("");
     setMessage("");

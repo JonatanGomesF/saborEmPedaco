@@ -235,7 +235,7 @@ export default function CheckoutDialog({ open, onOpenChange }: Props) {
       msg += ` (troco para R$ ${troco})`;
     }
 
-const url = `https://wa.me/+5511945977444?text=${encodeURIComponent(msg)}`;
+const url = `https://wa.me/+5511947270037?text=${encodeURIComponent(msg)}`;
 
     setIsSending(false);
     setIsSuccess(true);
