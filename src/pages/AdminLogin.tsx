@@ -37,12 +37,12 @@ export default function AdminLogin() {
         >
           {/* Header */}
           <div className="flex flex-col items-center gap-3 text-center">
-            <div className="w-14 h-14 rounded-2xl bg-[#c0261a] flex items-center justify-center shadow-lg shadow-red-900/40">
+            <div className="w-14 h-14 rounded-2xl bg-[#facc15] flex items-center justify-center shadow-lg shadow-black/40">
               <ChefHat size={28} className="text-white" />
             </div>
             <div>
               <h1 className="text-white font-black text-xl tracking-tight">
-                Sabor<span className="text-[#c0261a]">Em Pedaço</span>
+                Sabor<span className="text-[#facc15]">Em Pedaço</span>
               </h1>
               <p className="text-white/30 text-xs font-semibold tracking-wider mt-0.5 uppercase">Painel Administrativo</p>
             </div>
@@ -64,7 +64,7 @@ export default function AdminLogin() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   placeholder="admin@saborempedaco.com"
-                  className="w-full bg-white/[0.04] border border-white/[0.08] focus:border-[#c0261a]/60 focus:ring-1 focus:ring-[#c0261a]/20 rounded-xl pl-9 pr-4 py-3 text-white text-sm outline-none transition-all duration-200 placeholder:text-white/20"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] focus:border-[#facc15]/60 focus:ring-1 focus:ring-[#facc15]/20 rounded-xl pl-9 pr-4 py-3 text-white text-sm outline-none transition-all duration-200 placeholder:text-white/20"
                 />
               </div>
             </div>
@@ -80,7 +80,7 @@ export default function AdminLogin() {
                   onChange={(e) => setPassword(e.target.value)}
                   required
                   placeholder="••••••••"
-                  className="w-full bg-white/[0.04] border border-white/[0.08] focus:border-[#c0261a]/60 focus:ring-1 focus:ring-[#c0261a]/20 rounded-xl pl-9 pr-10 py-3 text-white text-sm outline-none transition-all duration-200 placeholder:text-white/20"
+                  className="w-full bg-white/[0.04] border border-white/[0.08] focus:border-[#facc15]/60 focus:ring-1 focus:ring-[#facc15]/20 rounded-xl pl-9 pr-10 py-3 text-white text-sm outline-none transition-all duration-200 placeholder:text-white/20"
                 />
                 <button
                   type="button"
@@ -94,7 +94,7 @@ export default function AdminLogin() {
 
             {/* Erro */}
             {error && (
-              <div className="text-[11px] text-red-400 font-semibold bg-red-500/10 border border-red-500/20 rounded-lg px-3 py-2">
+              <div className="text-[11px] text-[#a16207] font-semibold bg-yellow-500/10 border border-yellow-500/20 rounded-lg px-3 py-2">
                 {error}
               </div>
             )}
@@ -103,7 +103,7 @@ export default function AdminLogin() {
             <button
               type="submit"
               disabled={loading}
-              className="group w-full flex items-center justify-center gap-2 bg-[#c0261a] hover:bg-[#a31d12] disabled:opacity-60 text-white font-black text-sm tracking-wider uppercase rounded-xl py-3.5 transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg shadow-red-900/30 cursor-pointer overflow-hidden relative"
+              className="group w-full flex items-center justify-center gap-2 bg-[#facc15] hover:bg-[#eab308] disabled:opacity-60 text-black font-black text-sm tracking-wider uppercase rounded-xl py-3.5 transition-all duration-300 hover:scale-[1.02] active:scale-95 shadow-lg shadow-black/30 cursor-pointer overflow-hidden relative"
             >
               <span className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/10 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-700" />
               <LogIn size={16} className="relative z-10" />

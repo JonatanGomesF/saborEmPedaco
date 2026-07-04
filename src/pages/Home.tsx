@@ -217,7 +217,7 @@ export default function Home() {
             <div className="space-y-4 text-xs font-semibold tracking-wider text-red-100/80">
               <div className="flex items-start gap-3">
                 <Phone size={18} className="text-red-200 mt-0.5 flex-shrink-0" />
-                <p>(11) 96387-2966</p>
+                <p>(11) 947270037</p>
               </div>
 
               <div className="flex items-start gap-3">

@@ -332,7 +332,7 @@ const url = `https://wa.me/+5511945977444?text=${encodeURIComponent(msg)}`;
                   className="w-full bg-white/[0.03] border border-white/[0.08] focus:border-[#c0261a]/60 focus:ring-1 focus:ring-[#c0261a]/20 rounded-xl p-3 pr-10 text-white text-sm outline-none transition-all duration-300 placeholder:text-white/20"
                 />
                 {cepLoading && (
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#c0261a] text-[10px] font-black uppercase">Buscando...</div>
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 text-[#facc15] text-[10px] font-black uppercase">Buscando...</div>
                 )}
               </div>
             </div>
@@ -374,7 +374,7 @@ const url = `https://wa.me/+5511945977444?text=${encodeURIComponent(msg)}`;
               <select
                 value={payment}
                 onChange={(e) => setPayment(e.target.value)}
-                className="w-full bg-[#141414] border border-white/[0.08] focus:border-[#c0261a]/60 focus:ring-1 focus:ring-[#c0261a]/20 rounded-xl p-3 text-white text-sm outline-none transition-all duration-300 font-semibold cursor-pointer"
+                className="w-full bg-[#141414] border border-white/[0.08] focus:border-[#facc15]/60 focus:ring-1 focus:ring-[#facc15]/20 rounded-xl p-3 text-white text-sm outline-none transition-all duration-300 font-semibold cursor-pointer"
                 style={{ colorScheme: "dark" }}
               >
                 <option value="PIX">PIX</option>
@@ -407,21 +407,21 @@ const url = `https://wa.me/+5511945977444?text=${encodeURIComponent(msg)}`;
               <span>{deliveryFee > 0 ? `R$ ${deliveryFee.toFixed(2)}` : "Grátis"}</span>
             </div>
             {distanceKm !== null && (
-              <div className="flex items-center gap-2 text-[10px] text-[#c0261a] font-semibold">
+              <div className="flex items-center gap-2 text-[10px] text-[#facc15] font-semibold">
                 <MapPin size={12} />
                 <span>Distância estimada: {distanceKm.toFixed(1)} km</span>
               </div>
             )}
             <div className="flex items-center justify-between pt-2 border-t border-white/[0.06]">
               <span className="text-[10px] font-black text-white/40 uppercase tracking-widest">Total do Pedido</span>
-              <span className="text-lg font-black text-[#c0261a]">R$ {totalWithDelivery.toFixed(2)}</span>
+              <span className="text-lg font-black text-[#facc15]">R$ {totalWithDelivery.toFixed(2)}</span>
             </div>
           </div>
 
           <button
             onClick={send}
             disabled={isSending}
-            className="w-full bg-gradient-to-r from-[#c0261a] to-[#a31d12] hover:from-[#d93025] hover:to-[#c0261a] disabled:opacity-50 text-white py-3.5 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-red-900/35 flex items-center justify-center gap-2 cursor-pointer text-sm font-sans"
+            className="w-full bg-gradient-to-r from-[#facc15] to-[#d97706] hover:from-[#d97706] hover:to-[#facc15] disabled:opacity-50 text-black py-3.5 rounded-xl font-bold transition-all duration-300 shadow-lg shadow-black/25 flex items-center justify-center gap-2 cursor-pointer text-sm font-sans"
           >
             <MessageSquare size={16} />
             <span>{isSending ? "Processando..." : "Enviar pedido no WhatsApp"}</span>
