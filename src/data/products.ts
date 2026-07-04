@@ -18,7 +18,7 @@ export type Product = {
 export const products: Product[] = [
   {
     id: 1,
-    name: "Caldo Costela",
+    name: "Caldo Mandioquinha",
     description:
       "Caldo cremoso de costela com toque de temperos especiais.",
     price: 20.0,
