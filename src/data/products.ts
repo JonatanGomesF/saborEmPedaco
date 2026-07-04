@@ -18,7 +18,7 @@ export type Product = {
 export const products: Product[] = [
   {
     id: 1,
-    name: "Caldo Mandioquinha",
+    name: "Caldo Mandioquinha 350ml - (média)",
     description:
       "Caldo cremoso de costela com toque de temperos especiais.",
     price: 20.0,
@@ -27,7 +27,7 @@ export const products: Product[] = [
   },
   {
     id: 2,
-    name: "Caldo Mandioquinha",
+    name: "Caldo Mandioquinha 500ml - (grande)",
     description:
       "Caldo cremoso de mandioquinha com toque de temperos especiais.",
     price: 25.0,
@@ -36,7 +36,7 @@ export const products: Product[] = [
   },
   {
     id: 3,
-    name: "Caldo verde",
+    name: "Caldo verde 350ml - (média)",
     description:
       "Caldo verde tradicional com couve, batata e calabresa suave.",
     price: 22.0,
@@ -45,7 +45,7 @@ export const products: Product[] = [
   },
   {
     id: 4,
-    name: "Caldo Verde",
+    name: "Caldo Verde 500ml - (grande)",
     description:
       "Caldo verde tradicional com couve, batata e calabresa suave.",
     price: 30.0,
@@ -54,7 +54,7 @@ export const products: Product[] = [
   },
   {
     id: 5,
-    name: "Caldo de Quenga",
+    name: "Caldo de Quenga 350ml - (média)",
     description:
       "Caldo saboroso com pedaços suculentos e tempero caseiro.",
     price: 25.0,
@@ -63,7 +63,7 @@ export const products: Product[] = [
   },
   {
     id: 6,
-    name: "Caldo de Quenga",
+    name: "Caldo de Quenga 500ml - (grande)",
     description:
       "Caldo saboroso com pedaços suculentos e tempero caseiro.",
     price: 35.0,
@@ -72,7 +72,7 @@ export const products: Product[] = [
   },
   {
     id: 7,
-    name: "Caldo de Costela",
+    name: "Caldo de Costela 350ml - (média)",
     description:
       "Caldo encorpado de costela com sabor intenso e caldo bem temperado.",
     price: 28.0,
@@ -81,7 +81,7 @@ export const products: Product[] = [
   },
   {
     id: 8,
-    name: "Caldo de Costela",
+    name: "Caldo de Costela 500ml - (grande)",
     description:
       "Caldo encorpado de costela com sabor intenso e caldo bem temperado.",
     price: 35.0,
