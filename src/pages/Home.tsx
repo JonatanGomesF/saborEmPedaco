@@ -1,13 +1,13 @@
 
 import Hero from "../components/Hero";
-import { useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import ProductCard from "../components/ProductCard";
 import PromotionBanner from "../components/PromotionBanner";
 import ProductModal from "../components/ProductModal";
 import { useCart } from "../context/CartContext";
 import { usePromotions } from "../hooks/usePromotions";
 import { getProductAvailability } from "../lib/productAvailability";
-import { products, type Product } from "../data/products";
+import { getStoredCategories, getStoredProducts, type MenuProduct } from "../lib/menuStorage";
 import { Phone, Clock, MapPin } from "lucide-react";
 
 // Local Caldo Assets for the About Us Row
@@ -20,17 +20,31 @@ import heroBg from "../assets/costela.jpeg";
 export default function Home() {
   const { addToCart } = useCart();
   const promotions = usePromotions();
-  const [selectedProduct, setSelectedProduct] =
-    useState<Product | null>(null);
+  const [categories, setCategories] = useState<string[]>([]);
+  const [products, setProducts] = useState<MenuProduct[]>([]);
+  const [selectedProduct, setSelectedProduct] = useState<MenuProduct | null>(null);
+  const [modalOpen, setModalOpen] = useState(false);
+  const [activeCategory, setActiveCategory] = useState<string>("");
 
-  const [modalOpen, setModalOpen] =
-    useState(false);
+  useEffect(() => {
+    const storedCategories = getStoredCategories();
+    const storedProducts = getStoredProducts();
+    setCategories(storedCategories.map((category) => category.name));
+    setProducts(storedProducts);
+    setActiveCategory(storedCategories[0]?.name ?? "");
+  }, []);
 
   const availability = getProductAvailability();
-  const availableProducts = products.map((product) => ({
-    ...product,
-    available: availability[product.id] !== false,
-  }));
+  const categoryProducts = useMemo(
+    () =>
+      products
+        .map((product) => ({
+          ...product,
+          available: availability[product.id] !== false,
+        }))
+        .filter((product) => product.category === activeCategory),
+    [products, availability, activeCategory]
+  );
 
   // Form states
   const [name, setName] = useState("");
@@ -133,31 +147,51 @@ export default function Home() {
           </p>
         </div>
 
-        <div className="grid gap-3 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
-          {availableProducts.map((product) => {
-            const promotion = promotions.find(
-              (p) => p.product_id === product.id && p.active
-            );
-
-            return (
-              <ProductCard
-                key={product.id}
-                product={{
-                  ...product,
-                  promotionActive: !!promotion,
-                  promotionalPrice: promotion
-                    ? product.price - promotion.discount
-                    : undefined,
-                }}
-                onAddToCart={addToCart}
-                onOpenProduct={(product) => {
-                  setSelectedProduct(product);
-                  setModalOpen(true);
-                }}
-              />
-            );
-          })}
+        <div className="flex flex-col sm:flex-row items-center justify-center gap-3 mb-8">
+          {categories.map((category) => (
+            <button
+              key={category}
+              onClick={() => setActiveCategory(category)}
+              className={`px-4 py-2 rounded-full text-[11px] font-black uppercase tracking-[0.2em] transition ${
+                activeCategory === category
+                  ? "bg-[#facc15] text-black"
+                  : "bg-white/10 text-white/70 hover:bg-white/20"
+              }`}
+            >
+              {category}
+            </button>
+          ))}
         </div>
+
+        {categoryProducts.length === 0 ? (
+          <div className="text-center text-gray-500 text-sm">Nenhum item disponível nesta categoria.</div>
+        ) : (
+          <div className="grid gap-3 grid-cols-2 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4">
+            {categoryProducts.map((product) => {
+              const promotion = promotions.find(
+                (p) => p.product_id === product.id && p.active
+              );
+
+              return (
+                <ProductCard
+                  key={product.id}
+                  product={{
+                    ...product,
+                    promotionActive: !!promotion,
+                    promotionalPrice: promotion
+                      ? product.price - promotion.discount
+                      : undefined,
+                  }}
+                  onAddToCart={addToCart}
+                  onOpenProduct={(product) => {
+                    setSelectedProduct(product as MenuProduct);
+                    setModalOpen(true);
+                  }}
+                />
+              );
+            })}
+          </div>
+        )}
       </section>
 
       <ProductModal

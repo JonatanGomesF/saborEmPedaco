@@ -23,6 +23,7 @@ const navItems = [
   { to: "/admin/clientes",  label: "Clientes",    Icon: Users           },
   { to: "/admin/promocoes", label: "Promoções",   Icon: Tag             },
   { to: "/admin/estoque",   label: "Estoque",     Icon: Package         },
+  { to: "/admin/cardapio",  label: "Cardápio",    Icon: ChefHat         },
   { to: "/admin/localidade", label: "Localidade", Icon: MapPin          },
   { to: "/admin/impressora", label: "Impressora", Icon: Printer         },
 ];

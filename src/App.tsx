@@ -9,6 +9,7 @@ import AdminDashboard from "./pages/AdminDashboard";
 import AdminPedidos from "./pages/AdminPedidos";
 import AdminLocalidade from "./pages/AdminLocalidade";
 import AdminProdutos from "./pages/AdminProdutos";
+import AdminCardapio from "./pages/AdminCardapio";
 import ProtectedRoute from "./components/ProtectedRoute";
 
 import Cart from "./components/Cart";
@@ -167,6 +168,15 @@ function App() {
           element={
             <ProtectedRoute>
               <AdminProdutos />
+            </ProtectedRoute>
+          }
+        />
+
+        <Route
+          path="/admin/cardapio"
+          element={
+            <ProtectedRoute>
+              <AdminCardapio />
             </ProtectedRoute>
           }
         />
